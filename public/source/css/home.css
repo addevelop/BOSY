@@ -1,0 +1,61 @@
+.firstHome
+{
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+    background-image: url("../../images/imgHome.png");
+}
+
+.logoHome
+{
+    position: relative;
+    width: 16%;
+    height: auto;
+    margin: auto;
+    display: block;
+    padding: 1%;
+}
+
+.title-home
+{
+    position: relative;
+    color: var(--color1);
+    text-shadow: 2px 2px 3px var(--color2);
+    font-size: 3.9rem;
+    text-align: center;
+    display: block;
+    font-family: var(--font1);
+    
+}
+
+.Bottom-Home
+{
+    position: relative;
+    font-family: var(--font2);
+    color: var(--color1);
+    font-size: 2rem;
+}
+
+.secondHome
+{
+     position: relative;
+    width: 100%;
+    height: 100vh;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+    background-image: url("../../images/fond2.png");
+}
+
+.imgCustomBasket
+{
+    box-shadow: 2px 2px 3px black;
+}
+
+.sneakersCustom
+{
+    font-size:x-large;
+}

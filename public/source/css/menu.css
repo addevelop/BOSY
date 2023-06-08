@@ -1,0 +1,62 @@
+.container-Menu
+{
+    position: relative;
+    width: 100%;
+    background-color: grey;
+}
+
+.Menu
+{
+    position: relative;
+    width: 90%;
+    padding: 10px 0px !important;
+    border-radius: 100px;
+    margin: auto !important;
+}
+.menuafterScroll
+{
+    background-color: rgba(128, 128, 128, 0.41);
+}
+.menuforScroll
+{
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.container-Menu *
+{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.Menu > li
+{
+    flex: 1 1 auto;
+    font-family: var(--font2);
+    font-size: 1.3rem;
+    width: 100%;
+    text-align: center;
+    color: var(--color1);
+}
+
+
+.menuScroll
+{
+    top: 0 !important;
+    padding: 10px 0px;
+    z-index: 10;
+    transition-duration: 0.3s;
+    transform: translateY(-100%);
+}
+.Menu a
+{
+    color: var(--color1);
+    text-decoration: none;
+}
+.TitleSelect > a
+{
+    color: rgb(203, 203, 0) !important;
+}
+
