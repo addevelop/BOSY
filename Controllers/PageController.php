@@ -1,5 +1,5 @@
 <?php
-
+require_once("Controllers/Utils/params.php");
 function getHome()
 {
     require_once("Views/front/home.php");
@@ -36,9 +36,21 @@ function getLogin()
     if (isset($_POST["login"])) {
         $userConnect = new usersController();
         $login = $userConnect->login();
-
-        echo $login;
+        if ($login) {
+            header("Location: home");
+        }
     }
 
     require_once("Views/back/login.php");
+}
+
+
+function getSneaker($id)
+{
+    require_once("Models/SneakersClass.php");
+
+    // $id = params::getParams($params, "sneaker");
+    $getProduct = new Sneakers();
+    $getProduct = $getProduct->getSneaker($id);
+    require_once("Views/front/sneaker.php");
 }

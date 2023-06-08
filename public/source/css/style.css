@@ -143,3 +143,13 @@ body
 {
     color: red;
 }
+
+.textStart
+{
+    text-align: start;
+}
+
+.textEnd
+{
+    text-align: end;
+}

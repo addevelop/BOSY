@@ -1,8 +1,22 @@
 <?php
+session_start();
 require_once("Controllers/PageController.php");
 require_once("Controllers/commons/Utils.php");
+require_once("Controllers/commons/connectController.php");
+
 if (isset($_GET["page"])) {
-    switch ($_GET["page"]) {
+    $page = $_GET["page"];
+
+    $params = "";
+
+    $uri = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    $components = parse_url($uri);
+    if (!empty($components["query"])) {
+        parse_str($components['query'], $params);
+    }
+
+
+    switch ($page) {
         case "home":
             getHome();
             break;
@@ -14,6 +28,9 @@ if (isset($_GET["page"])) {
             break;
         case "login":
             getLogin();
+            break;
+        case "sneaker":
+            getSneaker($params);
             break;
     }
 }

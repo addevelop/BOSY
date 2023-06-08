@@ -14,4 +14,12 @@ class Sneakers
         $stmt->execute();
         return $stmt->fetchAll();
     }
+
+    public function getSneaker($id)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM products INNER JOIN images on images.ID_product = products.ID_product WHERE products.ID_product = :id");
+        $stmt->bindParam("id", $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch();
+    }
 }

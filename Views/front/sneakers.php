@@ -7,15 +7,17 @@ ob_start();
     <?php
     foreach ($getProducts as $key => $value) :
     ?>
-        <div class="product">
-            <div class="imgProduct">
-                <img src="public/data/sneakers/<?= $value["path"] ?>" class="w100" />
+        <a href="sneaker?sneaker=<?= $value["ID_product"] ?>">
+            <div class=" product">
+                <div class="imgProduct">
+                    <img src="public/data/sneakers/<?= $value["path"] ?>" class="w100" />
+                </div>
+                <div class="infosPorduct">
+                    <h2 class="title_Products"><?= $value["title"] ?></h2>
+                    <div class="price_Products"><?= $value["price"] ?>€</div>
+                </div>
             </div>
-            <div class="infosPorduct">
-                <h2 class="title_Products"><?= $value["title"] ?></h2>
-                <div class="price_Products"><?= $value["price"] ?>€</div>
-            </div>
-        </div>
+        </a>
     <?php endforeach; ?>
 
 </section>

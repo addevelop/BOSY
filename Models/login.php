@@ -1,6 +1,7 @@
 <?php
-require_once("users.php");
-class Login extends Users
+require_once("db.php");
+require_once("userClass.php");
+class Login
 {
     private $email;
     private $password;
@@ -8,20 +9,32 @@ class Login extends Users
 
     public function __construct()
     {
-        parent::__construct();
+        $this->db = Database::connect();
     }
 
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+    public function setPassword($password)
+    {
+        $this->password = $password;
+    }
     public function login()
     {
-        $stmt = $this->db->prepare("SELECT * FROM users WHERE email = :emai AND password = :password");
+        $connect = "no connect";
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE email = :email AND password = :password");
         $stmt->bindParam("email", $this->email, PDO::PARAM_STR);
         $stmt->bindParam("password", $this->password, PDO::PARAM_STR);
         $stmt->execute();
         $count = $stmt->rowCount();
         if ($count == 1) {
-            return true;
-        } else {
-            return false;
+            $connect = "connect";
+            $user = new userClass();
+
+            $_SESSION["connect"] = $user->getUser($this->email);
         }
+
+        return $connect;
     }
 }

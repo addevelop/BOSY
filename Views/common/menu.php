@@ -16,9 +16,22 @@
             <li>
                 nous contacter
             </li>
-            <li id="inscription">
-                <a href="inscription">connexion/inscription</a>
-            </li>
+            <?php
+            if (isConnect()) {
+            ?>
+                <li id="inscription">
+                    <a><?= getNames() ?></a>
+                </li>
+
+            <?php
+            } else {
+            ?>
+                <li id="inscription">
+                    <a href="inscription">connexion/inscription</a>
+                </li>
+            <?php
+            }
+            ?>
         </ul>
     </div>
 </nav>

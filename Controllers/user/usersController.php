@@ -62,7 +62,7 @@ class usersController
 
     public function login()
     {
-        $message = "";
+        $message = false;
         if (isset($_POST)) {
             $email = isset($_POST["email"]) ? $_POST["email"] : false;
             $password = isset($_POST["password"]) ? $_POST["password"] : false;
@@ -73,14 +73,10 @@ class usersController
                 $login->setEmail($email);
                 $login->setPassword($password);
                 if ($login->login()) {
-                    $message = 1;
+                    $message = true;
                     $_SESSION["connect"] = $email;
-                } else {
-                    $message = "l'email ou le mot de passe est incorrecte";
                 }
             }
-        } else {
-            $message = "Veuillez remplir tout les champs";
         }
         return $message;
     }
