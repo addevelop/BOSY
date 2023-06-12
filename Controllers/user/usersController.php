@@ -74,10 +74,20 @@ class usersController
                 $login->setPassword($password);
                 if ($login->login()) {
                     $message = true;
-                    $_SESSION["connect"] = $email;
                 }
             }
         }
         return $message;
+    }
+
+    public static function logout()
+    {
+        $logout = false;
+        if (connect::isConnect()) {
+            session_destroy();
+            session_unset();
+            $logout = true;
+        }
+        return $logout;
     }
 }

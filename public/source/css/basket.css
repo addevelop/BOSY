@@ -1,0 +1,12 @@
+.product
+{
+    position: relative;
+    width: 100%;
+    height: 15vh;
+}
+
+.imgBasket
+{
+    position: relative;
+    grid-template-columns: 1;
+}

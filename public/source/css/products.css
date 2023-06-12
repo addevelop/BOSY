@@ -11,11 +11,16 @@
 
 .product
 {
-    grid-column: auto;
+    position: relative;
     padding: 2%;
     box-shadow: 0px 0px 10px black;
 }
 
+
+.imgProduct
+{
+    width: 100%
+}
 .title_Products
 {
     width: 100%;
@@ -29,4 +34,30 @@
     font-family: var(--font2);
     font-size: large;
     text-align: end;
+}
+
+.container-Product
+{
+    position: relative;
+    display: block;
+    grid-column: auto;
+}
+
+
+
+.add
+{
+    position: relative;
+    background-color: rgb(0, 161, 0);
+    color: white;
+    border-radius: 10px;
+    padding: 2%;
+}
+
+.view-product
+{
+    position: relative;
+    border-radius: 10px;
+    padding: 2%;
+    border: 1px solid black;
 }

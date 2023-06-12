@@ -1,4 +1,5 @@
 <?php
+require_once("Models/db.php");
 require_once("Controllers/Utils/params.php");
 function getHome()
 {
@@ -9,8 +10,11 @@ function getHome()
 function getAllSneakers()
 {
     require_once("Models/SneakersClass.php");
+    require_once("Controllers/basket/basketControllerHandle.php");
+
     $getProducts = new Sneakers();
     $getProducts = $getProducts->getAllSneakers();
+
     require_once("Views/front/sneakers.php");
 }
 
@@ -53,4 +57,30 @@ function getSneaker($id)
     $getProduct = new Sneakers();
     $getProduct = $getProduct->getSneaker($id);
     require_once("Views/front/sneaker.php");
+}
+
+function logout()
+{
+    require_once("Controllers/user/usersController.php");
+    if (usersController::logout()) {
+        header("Location: home");
+    }
+}
+
+function getOrders()
+{
+}
+
+function getBasket()
+{
+    require_once("Controllers/basket/basketController.php");
+    $basket = basketController::getBasket();
+    require_once("Views/back/basket.php");
+}
+
+function getTest()
+{
+    require_once("Controllers/basket/basketControllerHandle.php");
+
+    require_once("test.php");
 }

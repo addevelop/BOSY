@@ -133,15 +133,21 @@ body
 
 }
 
+.flexRow
+{
+    flex-direction: row;
+}
+
 .w75
 {
     width: 75%;
     max-width: 75%;
 }
 
+
 .error
 {
-    color: red;
+    color: red !important;
 }
 
 .textStart
@@ -153,3 +159,4 @@ body
 {
     text-align: end;
 }
+

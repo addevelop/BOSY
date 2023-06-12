@@ -1,19 +1,31 @@
 <?php
 
-function isConnect()
+class connect
 {
-    $isConnect = false;
-    if (isset($_SESSION["connect"])) {
-        $isConnect = true;
+    public static function isConnect()
+    {
+        $isConnect = false;
+        if (isset($_SESSION["connect"])) {
+            $isConnect = true;
+        }
+        return $isConnect;
     }
-    return $isConnect;
-}
 
-function getNames()
-{
-    $getNames = "";
-    if (isset($_SESSION["connect"])) {
-        $getNames = $_SESSION["connect"]["firstname"] . " " . $_SESSION["connect"]["lastname"];
+    public static function getNames()
+    {
+        $getNames = "";
+        if (self::isConnect()) {
+            $getNames = $_SESSION["connect"]["firstname"] . " " . $_SESSION["connect"]["lastname"];
+        }
+        return $getNames;
     }
-    return $getNames;
+
+    public static function getId()
+    {
+        $getId = 0;
+        if (self::isConnect()) {
+            $getId = $_SESSION["connect"]["id"];
+        }
+        return $getId;
+    }
 }

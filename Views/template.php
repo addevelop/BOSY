@@ -9,7 +9,9 @@
     <link rel="stylesheet" href="public/source/css/style.css" />
 
     <link rel="stylesheet" href="public/source/css/menu.css" />
-    <script src="public/source/script/load.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src=" public/source/script/load.js">
+    </script>
 </head>
 
 <body>
@@ -21,6 +23,7 @@
     ?>
     <?php echo $content;
     ?>
+    <script src="Controllers/basket/getNumBasket.js"></script>
 </body>
 
 </html>

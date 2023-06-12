@@ -1,3 +1,6 @@
+<?php
+
+?>
 <nav id="blockMenu" class="container-Menu">
     <div id="menu" class="menuforScroll">
         <ul id="menuafterScroll" class="Menu flex">
@@ -17,16 +20,27 @@
                 nous contacter
             </li>
             <?php
-            if (isConnect()) {
+            if (connect::isConnect()) {
             ?>
-                <li id="inscription">
-                    <a><?= getNames() ?></a>
+                <li>
+                    <a><?= connect::getNames() ?></a>
+                    <ul class="subMenu">
+                        <li>
+                            <a href="orders">Mes commandes</a>
+                        </li>
+                        <li>
+                            <a href="logout" class="error">Deconnexion</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="h100 basketImage">
+                    <a id="getNumBasket" href="basket" class="textBasket"><?= isset($numbasket) ? $numbasket : 0 ?></a>
                 </li>
 
             <?php
             } else {
             ?>
-                <li id="inscription">
+                <li id=" inscription">
                     <a href="inscription">connexion/inscription</a>
                 </li>
             <?php
