@@ -24,6 +24,7 @@
     <?php echo $content;
     ?>
     <script src="Controllers/basket/getNumBasket.js"></script>
+    <script src="Controllers/basket/basketAjax.js"></script>
 </body>
 
 </html>

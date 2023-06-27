@@ -3,8 +3,11 @@ $(document).ready(function(){
 $("[data-click='addProductDirect'").click(function(e){
     addProductDirect($(e.target).attr("data-product"), 1);
     console.log(window.location.href);
+    
 })
-
+$("[data-select='updateOnBasket'").on("change", function(e){
+      updateProductOnBasket($(e.target).val(), $(e.target).attr("data-id"));
+    })
 });
 
 function addProductDirect(idsneaker, quantity)
@@ -60,6 +63,27 @@ function getNumBasket()
     console.log("ti" + data);
     $("#getNumBasket").text(data);
     
+    }
+  }); 
+}
+
+function updateProductOnBasket(value, id)
+{
+  console.log(value);
+  $.ajax({
+    type: "POST",
+    url: "Models/Ajax/Basket.php",
+    data: {
+      sneaker: id,
+      quantity: value, 
+      updateProductOnBasket: "true"
+    },
+    success: function(data) {
+    //   result=data;
+    console.log("ti" + data);
+      getNumBasket();
+      // $("[name='price']").text("recharger la page");
+
     }
   }); 
 }

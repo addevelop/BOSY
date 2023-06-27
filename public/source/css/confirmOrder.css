@@ -1,0 +1,46 @@
+.block-ticket
+{
+    position: relative;
+    width: 80%;
+    margin: auto;
+}
+
+.etape
+{
+    position: relative;
+    opacity: 0.3;
+}
+
+.label_input
+{
+    display: block;
+}
+
+.input
+{
+    position: relative;
+    width: 98%;
+}
+
+.datasectionetape
+{
+    display: none;
+}
+
+.dataclick2
+{
+    display: none;
+}
+
+.payer
+{
+    position: relative;
+    width: fit-content;
+    border: 1px solid grey;
+    border-radius: 10px;
+    padding: 10px;
+    margin: auto;
+    display: block;
+    background-color: rgb(200, 200, 200);
+
+}

@@ -1,6 +1,8 @@
 <?php
 
 session_start();
+
+require_once("param/param.php");
 require_once("Controllers/PageController.php");
 require_once("Controllers/commons/Utils.php");
 require_once("Controllers/commons/connectController.php");
@@ -41,6 +43,12 @@ if (isset($_GET["page"])) {
             break;
         case "basket":
             getBasket();
+            break;
+        case "confirmOrder":
+            getConfirmOrder();
+            break;
+        case "createOrder":
+            getCreateOrder();
             break;
         case "test":
             getTest();

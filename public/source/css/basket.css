@@ -10,3 +10,45 @@
     position: relative;
     grid-template-columns: 1;
 }
+
+
+.prices
+{
+    position: relative;
+}
+
+.ticket
+{
+    position: relative;
+    width: 90%;
+    margin: auto;
+    border: 1px solid black;
+}
+
+.bar
+{
+    position: relative;
+    width: 100%;
+    height: 1px;
+    background-color: black;
+}
+
+.send
+{
+    position: relative;
+    width: 100%;
+    text-align: center;
+    height: fit-content;
+    display: block;
+    padding: 1% 0%;
+    background-color: rgb(87, 87, 87);
+    transition-duration: 0.2s;
+    color: white;
+}
+
+.send:hover
+{
+    background-color: white;
+    color: black;
+    box-shadow: 0px 0px 10px black;
+}

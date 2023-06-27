@@ -75,6 +75,7 @@ function getBasket()
 {
     require_once("Controllers/basket/basketController.php");
     $basket = basketController::getBasket();
+    $total = basketController::getTotal();
     require_once("Views/back/basket.php");
 }
 
@@ -83,4 +84,25 @@ function getTest()
     require_once("Controllers/basket/basketControllerHandle.php");
 
     require_once("test.php");
+}
+
+function getConfirmOrder()
+{
+    require_once("Controllers/basket/basketController.php");
+    require_once("Controllers/user/CostumersController.php");
+    require_once("Controllers/delivred/delivredController.php");
+    $basket = basketController::getBasket();
+    $total = basketController::getTotal();
+    $address = CostumersController::getAddressById();
+    $infos = CostumersController::getInfosById();
+    $delivred = delivredController::getWay();
+    require_once("Views/back/confirmOrder.php");
+}
+
+
+function getCreateOrder()
+{
+    require_once("Controllers/order/ordersController.php");
+    $createOrder = ordersController::createOrder(isset($_POST["delivred"]));
+    require_once("Views/back/createOrder.php");
 }

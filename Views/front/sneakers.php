@@ -34,7 +34,6 @@ ob_start();
 
     <?php endforeach; ?>
 </section>
-<script src="Controllers/basket/basketAjax.js"></script>
 <?php
 $content = ob_get_clean();
 require_once("Views/template.php");
