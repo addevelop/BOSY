@@ -48,6 +48,6 @@ class CostumersClass
         if ($stmt->execute()) {
             $updateAddress = true;
         }
-        return $update
+        return $updateAddress;
     }
 }

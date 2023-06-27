@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : jeu. 08 juin 2023 à 08:58
+-- Généré le : mar. 27 juin 2023 à 08:32
 -- Version du serveur : 8.0.31
 -- Version de PHP : 8.1.13
 
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `address` (
   `ID_user` int NOT NULL,
   PRIMARY KEY (`ID_address`),
   KEY `address_users0_FK` (`ID_user`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -65,6 +65,52 @@ CREATE TABLE IF NOT EXISTS `administration` (
 
 INSERT INTO `administration` (`ID_administration`, `title`, `administration`, `description`) VALUES
 (1, 'Membre', 1, 'Membre');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `basket`
+--
+
+DROP TABLE IF EXISTS `basket`;
+CREATE TABLE IF NOT EXISTS `basket` (
+  `ID_basket` int NOT NULL AUTO_INCREMENT,
+  `ID_product` int NOT NULL,
+  `ID_user` int NOT NULL,
+  `quantity` int NOT NULL,
+  PRIMARY KEY (`ID_basket`),
+  KEY `ID_product` (`ID_product`),
+  KEY `ID_user` (`ID_user`)
+) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `basket`
+--
+
+INSERT INTO `basket` (`ID_basket`, `ID_product`, `ID_user`, `quantity`) VALUES
+(82, 2, 4, 10),
+(83, 1, 9, 0),
+(84, 2, 9, 13),
+(85, 1, 8, 8);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `basket_order`
+--
+
+DROP TABLE IF EXISTS `basket_order`;
+CREATE TABLE IF NOT EXISTS `basket_order` (
+  `ID_basket_order` int NOT NULL AUTO_INCREMENT,
+  `numero` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ID_product` int NOT NULL,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `price` float NOT NULL,
+  `quantity` int NOT NULL,
+  `ID_user` int NOT NULL,
+  `created_at` date NOT NULL,
+  PRIMARY KEY (`ID_basket_order`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -111,6 +157,28 @@ INSERT INTO `categories` (`ID_categorie`, `categorie`, `created_at`) VALUES
 (1, 'custom', '2023-06-05 18:32:00'),
 (2, 'Off-white', '2023-06-05 18:32:15'),
 (3, 'classique', '2023-06-05 18:32:22');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `delivred`
+--
+
+DROP TABLE IF EXISTS `delivred`;
+CREATE TABLE IF NOT EXISTS `delivred` (
+  `ID_delivred` int NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `delivred` int NOT NULL,
+  `price` float NOT NULL,
+  PRIMARY KEY (`ID_delivred`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `delivred`
+--
+
+INSERT INTO `delivred` (`ID_delivred`, `title`, `delivred`, `price`) VALUES
+(1, 'A domicile (standart)', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -188,6 +256,7 @@ CREATE TABLE IF NOT EXISTS `products` (
   `activate` tinyint(1) NOT NULL,
   `ID_categorie` int NOT NULL,
   `ID_brands` int NOT NULL,
+  `stock` int NOT NULL,
   PRIMARY KEY (`ID_product`),
   KEY `products_categories0_FK` (`ID_categorie`),
   KEY `products_brands1_FK` (`ID_brands`)
@@ -197,9 +266,9 @@ CREATE TABLE IF NOT EXISTS `products` (
 -- Déchargement des données de la table `products`
 --
 
-INSERT INTO `products` (`ID_product`, `title`, `description`, `price`, `created_at`, `modified_at`, `activate`, `ID_categorie`, `ID_brands`) VALUES
-(1, 'Air Jordan 4', 'Air Jordan 4 retro yellow new collection', 239, '2023-06-05', '2023-06-05', 1, 3, 3),
-(2, 'Air force 1', 'Air force custom', 170, '2023-06-05', '2023-06-05', 1, 1, 1);
+INSERT INTO `products` (`ID_product`, `title`, `description`, `price`, `created_at`, `modified_at`, `activate`, `ID_categorie`, `ID_brands`, `stock`) VALUES
+(1, 'Air Jordan 4', 'Air Jordan 4 retro yellow new collection', 239, '2023-06-05', '2023-06-05', 1, 3, 3, 10),
+(2, 'Air force 1', 'Air force custom', 170, '2023-06-05', '2023-06-05', 1, 1, 1, 13);
 
 -- --------------------------------------------------------
 
@@ -211,14 +280,16 @@ DROP TABLE IF EXISTS `status_orders`;
 CREATE TABLE IF NOT EXISTS `status_orders` (
   `ID_status_order` int NOT NULL AUTO_INCREMENT,
   `status` int NOT NULL,
-  `created_at` date NOT NULL,
-  `modifed_at` date NOT NULL,
-  `ID_order` int NOT NULL,
-  `ID_delivred` int NOT NULL,
-  PRIMARY KEY (`ID_status_order`),
-  UNIQUE KEY `status_orders_orders0_AK` (`ID_order`),
-  UNIQUE KEY `status_orders_delivred_at1_AK` (`ID_delivred`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`ID_status_order`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `status_orders`
+--
+
+INSERT INTO `status_orders` (`ID_status_order`, `status`, `title`) VALUES
+(1, 1, 'En cours chez le fournisseur');
 
 -- --------------------------------------------------------
 
@@ -239,7 +310,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `ID_administration` int NOT NULL,
   PRIMARY KEY (`ID_user`),
   KEY `users_administration0_FK` (`ID_administration`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `users`
@@ -248,11 +319,12 @@ CREATE TABLE IF NOT EXISTS `users` (
 INSERT INTO `users` (`ID_user`, `firstname`, `lastname`, `email`, `mobile_phone`, `password`, `activate`, `created_at`, `ID_administration`) VALUES
 (1, 'test', 'test', 'admin@gmail.com', '0606060606', 'Admin123!', 1, '2023-06-06', 1),
 (2, 'test', 'test', 'admin@gmail.com', '0606060606', 'Admin123!', 1, '2023-06-06', 1),
-(3, 'hello', 'hello', 'admin@gmail.com', '0606060606', 'Admin123!', 1, '2023-06-07', 1),
 (4, 'hello', 'hello', 'test@gmail.com', '0606060606', 'Admin123!', 1, '2023-06-07', 1),
 (5, 'test', 'test', 'test1@gmail.com', '0606060606', 'Admin123!', 1, '2023-06-07', 1),
 (6, 'test', 'test', 'yolo@gmail.com', '0606060606', 'Admin123!', 1, '2023-06-07', 1),
-(7, 'test', 'test', 'test9000@gmail.com', '0606060606', 'Admin123!', 1, '2023-06-07', 1);
+(7, 'test', 'test', 'test9000@gmail.com', '0606060606', 'Admin123!', 1, '2023-06-07', 1),
+(8, 'adrien', 'adrien', 'adrien2001.rodrigues@gmail.com', '0606060606', 'Admin123!', 1, '2023-06-12', 1),
+(9, 'first', 'last', 'first@gmail.com', '0606060606', 'Admin123!', 1, '2023-06-12', 1);
 
 --
 -- Contraintes pour les tables déchargées
@@ -263,6 +335,13 @@ INSERT INTO `users` (`ID_user`, `firstname`, `lastname`, `email`, `mobile_phone`
 --
 ALTER TABLE `address`
   ADD CONSTRAINT `address_users0_FK` FOREIGN KEY (`ID_user`) REFERENCES `users` (`ID_user`);
+
+--
+-- Contraintes pour la table `basket`
+--
+ALTER TABLE `basket`
+  ADD CONSTRAINT `basket_ibfk_1` FOREIGN KEY (`ID_user`) REFERENCES `users` (`ID_user`),
+  ADD CONSTRAINT `basket_ibfk_2` FOREIGN KEY (`ID_product`) REFERENCES `products` (`ID_product`);
 
 --
 -- Contraintes pour la table `delivred_at`
@@ -289,13 +368,6 @@ ALTER TABLE `orders`
 ALTER TABLE `products`
   ADD CONSTRAINT `products_brands1_FK` FOREIGN KEY (`ID_brands`) REFERENCES `brands` (`ID_brands`),
   ADD CONSTRAINT `products_categories0_FK` FOREIGN KEY (`ID_categorie`) REFERENCES `categories` (`ID_categorie`);
-
---
--- Contraintes pour la table `status_orders`
---
-ALTER TABLE `status_orders`
-  ADD CONSTRAINT `status_orders_delivred_at1_FK` FOREIGN KEY (`ID_delivred`) REFERENCES `delivred_at` (`ID_delivred`),
-  ADD CONSTRAINT `status_orders_orders0_FK` FOREIGN KEY (`ID_order`) REFERENCES `orders` (`ID_order`);
 
 --
 -- Contraintes pour la table `users`
