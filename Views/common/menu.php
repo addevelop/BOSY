@@ -17,7 +17,7 @@
             </li>
 
             <li>
-                nous contacter
+                <a href="contact">nous contacter</a>
             </li>
             <?php
             if (connect::isConnect()) {

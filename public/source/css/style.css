@@ -12,12 +12,19 @@
     font-style: normal;
     src: url("../font/BarlowCondensed-Regular.ttf") format("truetype");
 }
+@font-face
+{
+    font-family: "Roboto-Regular";
+    font-style: normal;
+    src: url("../font/Roboto/Roboto-Regular.ttf") format("truetype");
+}
 :root
 {
     --color1: white;
     --color2: black;
     --font1: "Barlow Condensed Bold";
     --font2: "Barlow Condensed";
+    --font3: "Roboto-Regular";
     --fontsize1: 1rem;
     --fontsize2: 1.2rem;
     --fontsize3: 1.4rem;

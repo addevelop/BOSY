@@ -69,6 +69,10 @@ function logout()
 
 function getOrders()
 {
+    require_once("Controllers/order/ordersController.php");
+    $orders = OrdersController::getOrdersById();
+    require_once("Views/back/orders.php");
+    
 }
 
 function getBasket()
@@ -76,6 +80,7 @@ function getBasket()
     require_once("Controllers/basket/basketController.php");
     $basket = basketController::getBasket();
     $total = basketController::getTotal();
+    $nombrePrd = basketController::getBasketStock();
     require_once("Views/back/basket.php");
 }
 
@@ -103,6 +108,30 @@ function getConfirmOrder()
 function getCreateOrder()
 {
     require_once("Controllers/order/ordersController.php");
-    $createOrder = ordersController::createOrder(isset($_POST["delivred"]));
+    if(ordersController::createOrder(isset($_POST["delivred"]), isset($_POST["promo"])))
+    {
+        header("Location: newCommande");
+    }
+    
+}
+
+function getNewOrder()
+{
+    require_once("Controllers/order/ordersController.php");
+    $getNumLastOrder = ordersController::getNumLastOrder();
+    $commande = ordersController::getLastOrder();
     require_once("Views/back/createOrder.php");
+}
+
+function getOrder($numorder)
+{
+    require_once("Controllers/order/ordersController.php");
+    $getOrderByNum = OrdersController::getOrderByNum($numorder);
+    $getInfosByNum = OrdersController::getInfosByNum($numorder);
+    require_once("Views/back/order.php");
+}
+
+function getContact()
+{
+    require_once("Views/front/contact.php");
 }

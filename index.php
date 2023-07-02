@@ -50,6 +50,15 @@ if (isset($_GET["page"])) {
         case "createOrder":
             getCreateOrder();
             break;
+        case "newCommande":
+            getNewOrder();
+            break;
+        case "order":
+            getOrder($params["numero"]);
+            break;
+        case "contact":
+            getContact();
+            break;
         case "test":
             getTest();
             break;

@@ -1,0 +1,50 @@
+.formulary
+{
+    position: relative;
+    width: 80%;
+}
+.block_body
+{
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.block_contact
+{
+    position: relative;
+    width: 100%;
+    padding: 1%;
+    box-shadow: 0px 0px 10px black;
+}
+
+
+.title
+{
+    position: relative;
+    font-family: var(--font3);
+    font-size: var(--fontsize4);
+}
+
+
+
+.labelinput
+{
+    position: relative;
+    display: block;
+    font-size: var(--fontsize2);
+}
+
+.block_contact input, .block_contact textarea
+{
+    border-top: none;
+    border-right: none;
+    border-left: none;
+}
+
+
+.envoyercontact
+{
+    border: none;
+    font-size: var(--fontsize2);
+}

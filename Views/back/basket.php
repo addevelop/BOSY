@@ -4,7 +4,11 @@ ob_start();
 ?>
 <link rel="stylesheet" href="public/source/css/basket.css" />
 <section class="rowColumn">
-    <div class="rowColumn w-l-8">
+    <?php
+    if($nombrePrd)
+    {
+        ?>
+<div class="rowColumn w-l-8">
         <?php
         foreach ($basket as $value) :
         ?>
@@ -58,6 +62,18 @@ ob_start();
 
         </div>
     </div>
+        <?php
+    }
+    else
+    {
+        ?>
+        <div class="w100 textCenter">
+            <p>Il n'y à rien dans le panier</p>
+        </div>
+        <?php
+    }
+    ?>
+    
 </section>
 <script src="public/source/script/basket.js"></script>
 

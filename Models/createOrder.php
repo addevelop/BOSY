@@ -1,5 +1,8 @@
 <?php
+require_once("Models/Basket.php");
 require_once("Controllers/commons/connectController.php");
+require_once("Models/SneakersClass.php");
+
 require_once("Models/db.php");
 class CreateOrder
 {
@@ -8,12 +11,16 @@ class CreateOrder
     public $product;
     public $numero;
     public $created_at;
+    public $code;
+    public $percentpromo;
 
     public function __construct()
     {
         $this->iduser = connect::getId();
         $this->db = Database::connect();
         $this->product = $this->getAllProductOnBasketUser();
+        $this->code = NULL;
+        $this->percentpromo = 0;
     }
 
     public function getAllProductOnBasketUser()
@@ -30,8 +37,12 @@ class CreateOrder
         $stmt->execute();
         return $stmt->fetch();
     }
-    public function create($delivery)
+    public function create($delivery, $promo)
     {
+        if(!empty($promo))
+        {
+            $this->code = $this->checkPromoExist($promo);
+        }
         $create = false;
         $error = "";
         switch (false) {
@@ -45,7 +56,7 @@ class CreateOrder
                 $error = "problème de type";
                 break;
             default:
-                if ($this->createOrder()) {
+                if ($this->createOrder($delivery)) {
                     $error = "create order";
                     $create = true;
                 } else {
@@ -57,9 +68,23 @@ class CreateOrder
         }
 
 
-        return $error;
+        return $create;
     }
 
+    public function checkPromoExist($promo)
+    {
+        $code = NULL;
+        $stmt = $this->db->prepare("SELECT * FROM promo WHERE code = :code");
+        $stmt->bindParam(":code", $promo, PDO::PARAM_STR);
+        if($stmt->execute())
+        {
+            if($stmt->rowCount() > 0)
+            {
+                $code = $stmt->fetch();
+            }
+        }
+        return $code;
+    }
     public function stockProduct()
     {
         $stock = true;
@@ -96,7 +121,7 @@ class CreateOrder
         return $delivred;
     }
 
-    public function createOrder()
+    public function createOrder($delivery)
     {
         $count = 0;
         $createdOrder = false;
@@ -107,16 +132,30 @@ class CreateOrder
             }
             $count = $count + 1;
         }
-        $createdOrder = true;
-        $date = date("Y-m-d");
-        $idstatusorder = 1;
-        $stmt = $this->db->prepare("INSERT INTO orders(numero, created_at, ID_user, ID_status_order) VALUES(:numero, :created_at, :iduser, :idstatusorder");
-        $stmt->bindParam(":numero", $this->numero, PDO::PARAM_STR);
-        $stmt->bindParam(":created_at", $date, PDO::PARAM_STR);
-        $stmt->bindParam(":iduser", $this->iduser, PDO::PARAM_INT);
-        $stmt->bindParam(":idstatusorder", $idstatusorder, PDO::PARAM_INT);
-        $stmt->execute();
-
+        if($this->copyBasket())
+        {
+            $createdOrder = true;
+            $date = date("Y-m-d");
+            $idstatusorder = 1;
+            $basket = new Basket();
+            $total = $basket->getTotalByNum($this->numero);
+            $code = $this->code != null ? $this->code["code"] : $this->code; 
+            $total = $this->code != null ? $total["total"] / 100 * (100 - $this->code["promo"]) : $total["total"];
+            $stmt = $this->db->prepare("INSERT INTO orders(numero, created_at, ID_user, status, delivery, total, promo) VALUES(:numero, :created_at, :iduser, :idstatusorder, :delivery, :total, :code)");
+            $stmt->bindParam(":numero", $this->numero, PDO::PARAM_STR);
+            $stmt->bindParam(":created_at", $date, PDO::PARAM_STR);
+            $stmt->bindParam(":iduser", $this->iduser, PDO::PARAM_INT);
+            $stmt->bindParam(":idstatusorder", $idstatusorder, PDO::PARAM_INT);
+            $stmt->bindParam(":delivery", $delivery, PDO::PARAM_INT); 
+            $stmt->bindParam(":total", $total);
+            $stmt->bindParam(":code", $code, PDO::PARAM_STR);
+            if($stmt->execute())
+            {
+                $createdOrder = true;
+            }
+    
+        }
+        
         return $createdOrder;
     }
 
@@ -129,6 +168,70 @@ class CreateOrder
         $number = $stmt->rowCount();
         return $number;
     }
+
+    public function copyBasket()
+    {
+        $copy = true;
+        $basket = new Basket();
+        $allBasket = $basket->getBasket();
+        
+        foreach($allBasket as $sneaker)
+        {
+            if($this->addOnBasketOrder($sneaker) == false)
+            {
+                $copy = false;
+            }
+            if($this->updateStock($sneaker) == false)
+            {
+                $copy = false;
+            }
+            if($basket->cleanBasket() == false)
+            {
+                $copy = false;
+            }
+            
+        }
+        return $copy;
+    }
+
+    public function addOnBasketOrder($sneaker)
+    {
+        $addOnbasketOrder = false;
+        $createdat = date("Y-m-d");
+        $stmt = $this->db->prepare("INSERT INTO basket_order(numero, ID_product, title, price, quantity, ID_user, created_at) VALUES(:numero, :idproduct, :title, :price, :quantity, :iduser, :createdat)");
+        $stmt->bindParam(":numero", $this->numero, PDO::PARAM_STR);
+        $stmt->bindParam(":idproduct", $sneaker["ID_product"], PDO::PARAM_INT);
+        $stmt->bindParam(":title", $sneaker["title"], PDO::PARAM_STR);
+        $stmt->bindParam(":price", $sneaker["price"], PDO::PARAM_STR);
+        $stmt->bindParam(":quantity", $sneaker["quantity"], PDO::PARAM_INT);
+        $stmt->bindParam(":iduser", $this->iduser, PDO::PARAM_INT);
+        $stmt->bindParam(":createdat", $createdat, PDO::PARAM_STR);
+        if($stmt->execute())
+        {
+            $addOnBasketOrder = true;
+        }
+        return $addOnBasketOrder;
+        
+    }
+
+    public function updateStock($sneaker)
+    {
+        $update = false;
+        $sneakerClass = new Sneakers();
+        $snekearById = $sneakerClass->getSneaker($sneaker["ID_product"]);
+        $quantity = $snekearById["stock"] - $sneaker["quantity"];
+        $stmt = $this->db->prepare("UPDATE products SET stock = :quantity WHERE ID_product = :idproduct");
+        $stmt->bindParam(":quantity", $quantity, PDO::PARAM_INT);
+        $stmt->bindParam(":idproduct", $sneaker["ID_product"], PDO::PARAM_INT);
+        if($stmt->execute())
+        {
+            $update = true;
+        }
+        
+        return $update;
+    }
+
+    
 
     public function getRandom()
     {

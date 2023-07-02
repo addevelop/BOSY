@@ -46,12 +46,15 @@ class Basket
         $stmt = $this->db->prepare("SELECT * FROM basket WHERE ID_user = :iduser AND ID_product = :idproduct");
         $stmt->bindParam(":iduser", $this->iduser, PDO::PARAM_INT);
         $stmt->bindParam(":idproduct", $this->sneaker, PDO::PARAM_INT);
-        $stmt->execute();
+        if($stmt->execute())
+        {
+            if ($stmt->rowCount() > 0) {
 
-        if ($stmt->rowCount() > 0) {
-
-            $addOnBasket = true;
+                $addOnBasket = true;
+            }
         }
+
+       
 
         return $addOnBasket;
     }
@@ -64,7 +67,7 @@ class Basket
             $quantityCurrent = $this->getNumberOfProductOnBasket();
         }
         $this->quantity = $this->quantity + $quantityCurrent;
-        if ($this->quantity <= $this->checkStockProducts()) {
+        if ($this->quantity < $this->checkStockProducts()) {
             $stmt = $this->db->prepare("UPDATE basket SET quantity = :quantity WHERE ID_user = :iduser AND ID_product = :idproduct");
             $stmt->bindParam(":quantity", $this->quantity, PDO::PARAM_INT);
             $stmt->bindParam(":iduser", $this->iduser, PDO::PARAM_INT);
@@ -149,7 +152,10 @@ class Basket
         $stmt = $this->db->prepare("SELECT SUM(basket.quantity * products.price) as 'total' FROM basket INNER JOIN products ON basket.ID_product = products.ID_product WHERE basket.ID_user = :iduser GROUP BY basket.ID_user");
         $stmt->bindParam(":iduser", $this->iduser, PDO::PARAM_INT);
         if ($stmt->execute()) {
-            $total = $stmt->fetch();
+            if($stmt->rowCount() > 0)
+            {
+                $total = $stmt->fetch();
+            }
         }
         return $total;
     }
@@ -167,4 +173,32 @@ class Basket
 
         return $delete;
     }
+
+
+    public function cleanBasket()
+    {
+        $cleanBasket = false;
+        $stmt = $this->db->prepare("DELETE FROM basket WHERE ID_user = :iduser");
+        $stmt->bindParam(":iduser", $this->iduser, PDO::PARAM_INT);
+        if($stmt->execute())
+        {
+            $cleanBasket = true;
+        }
+        return $cleanBasket;
+    }
+
+    public function getTotalByNum($num)
+    {
+        $getTotalByNum = false;
+        $stmt = $this->db->prepare("SELECT SUM(quantity * price) as 'total' FROM basket_order WHERE numero = :numorder");
+        $stmt->bindParam(":numorder", $num, PDO::PARAM_INT);
+        if($stmt->execute())
+        {
+            $getTotalByNum = $stmt->fetch();
+        }
+        return $getTotalByNum;
+    }
+
+    
 }
+

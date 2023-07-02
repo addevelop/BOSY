@@ -28,7 +28,19 @@ class basketController
         $checkNumberProduct = new Basket();
         $checkNumberProduct->checkStockProducts($sneaker);
     }
-
+    
+    public static function getBasketStock()
+    {
+        $nombrePrd = false;
+        $getBasketStock = new Basket();
+        if(count($getBasketStock->getBasket()) > 0)
+        {
+            $nombrePrd = true;
+        }
+        
+        return $nombrePrd;
+        
+    }
     public static function getTotal()
     {
         $total = new Basket();

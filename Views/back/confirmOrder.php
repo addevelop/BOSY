@@ -80,7 +80,7 @@ ob_start();
                 <label>
                     description
                 </label>
-                <textarea class="w100"><?= isset($address['description']) ? $address['description'] : '' ?></textarea>
+                <textarea name="description" class="w100"><?= isset($address['description']) ? $address['description'] : '' ?></textarea>
             </div>
         </form>
     </fieldset>
@@ -107,6 +107,8 @@ ob_start();
         <fieldset class="block-ticket margin-auto">
             <legend class="font18 textCenter">Moyen de livraison</legend>
             <div>
+                <label class="labelpromo">code promo</label>
+                <input class="inputpromo" type="text" name="promo" />
                 <input type="submit" class="payer" value="payer" />
             </div>
         </fieldset>

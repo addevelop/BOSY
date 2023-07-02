@@ -34,7 +34,7 @@ function etape2()
 
     if(address == true)
     {
-        checkAddressifExist();
+        checkAddress();
         $("[data-click='2']").css("display", "block");
     }
 }
