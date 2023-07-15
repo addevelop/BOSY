@@ -22,23 +22,17 @@ class Basket
         $this->quantity = $quantity;
         $addOnBasket = false;
         if ($this->ifProductIsOnBasket()) {
-            if ($this->quantity == 0) {
+            if ($this->quantity <= 0) {
                 $addOnBasket = $this->deleteBasketProduct();
             } else {
                 $addOnBasket = $this->updateBasketProduct();
             }
         } else {
-            $stmt = $this->db->prepare("INSERT INTO basket(ID_product, ID_user, quantity) VALUES(:idproduct, :iduser, :quantity)");
-            $stmt->bindParam(":idproduct", $this->sneaker, PDO::PARAM_INT);
-            $stmt->bindParam(":iduser", $this->iduser, PDO::PARAM_INT);
-            $stmt->bindParam(":quantity", $this->quantity, PDO::PARAM_INT);
-
-            if ($stmt->execute()) {
-                $addOnBasket = true;
-            }
+            $addOnBasket = $this->addOnBasketFirst();
         }
         return $addOnBasket;
     }
+
     //if product exist on the basket user
     public function ifProductIsOnBasket()
     {
@@ -46,17 +40,33 @@ class Basket
         $stmt = $this->db->prepare("SELECT * FROM basket WHERE ID_user = :iduser AND ID_product = :idproduct");
         $stmt->bindParam(":iduser", $this->iduser, PDO::PARAM_INT);
         $stmt->bindParam(":idproduct", $this->sneaker, PDO::PARAM_INT);
-        if($stmt->execute())
-        {
+        if ($stmt->execute()) {
             if ($stmt->rowCount() > 0) {
 
                 $addOnBasket = true;
             }
         }
 
-       
+
 
         return $addOnBasket;
+    }
+    public function addOnBasketFirst()
+    {
+        $addOnBasketFirst = false;
+        if ($this->checkStockProducts() > $this->quantity) {
+            $stmt = $this->db->prepare("INSERT INTO basket(ID_product, ID_user, quantity) VALUES(:idproduct, :iduser, :quantity)");
+            $stmt->bindParam(":idproduct", $this->sneaker, PDO::PARAM_INT);
+            $stmt->bindParam(":iduser", $this->iduser, PDO::PARAM_INT);
+            $stmt->bindParam(":quantity", $this->quantity, PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                $addOnBasketFirst = true;
+            }
+        }
+
+
+        return $addOnBasketFirst;
     }
     //if product exist in the basket user update
     public function updateBasketProduct()
@@ -65,24 +75,41 @@ class Basket
         $quantityCurrent = 0;
         if ($this->type == "add") {
             $quantityCurrent = $this->getNumberOfProductOnBasket();
-        }
-        $this->quantity = $this->quantity + $quantityCurrent;
-        if ($this->quantity < $this->checkStockProducts()) {
-            $stmt = $this->db->prepare("UPDATE basket SET quantity = :quantity WHERE ID_user = :iduser AND ID_product = :idproduct");
-            $stmt->bindParam(":quantity", $this->quantity, PDO::PARAM_INT);
-            $stmt->bindParam(":iduser", $this->iduser, PDO::PARAM_INT);
-            $stmt->bindParam(":idproduct", $this->sneaker, PDO::PARAM_INT);
 
-            if ($stmt->execute()) {
+            if ($quantityCurrent) {
+                $this->quantity = $this->quantity + $quantityCurrent;
+                if ($this->quantity <= $this->checkStockProducts()) {
+                    $stmt = $this->db->prepare("UPDATE basket SET quantity = :quantity WHERE ID_user = :iduser AND ID_product = :idproduct");
+                    $stmt->bindParam(":quantity", $this->quantity, PDO::PARAM_INT);
+                    $stmt->bindParam(":iduser", $this->iduser, PDO::PARAM_INT);
+                    $stmt->bindParam(":idproduct", $this->sneaker, PDO::PARAM_INT);
+
+                    if ($stmt->execute()) {
+                        $update = true;
+                    }
+                }
+            }
+        } else if ($this->type == "change") {
+            if ($this->changeQuantityProduct()) {
                 $update = true;
             }
         }
+
 
         return $update;
     }
 
     public function changeQuantityProduct()
     {
+        $changeQuantityProduct = false;
+        $stmt = $this->db->prepare("UPDATE basket SET quantity = :quantity WHERE ID_user = :iduser AND ID_product = :sneaker");
+        $stmt->bindParam(":quantity", $this->quantity, PDO::PARAM_INT);
+        $stmt->bindParam(":iduser", $this->iduser, PDO::PARAM_INT);
+        $stmt->bindParam(":sneaker", $this->sneaker, PDO::PARAM_INT);
+        if ($stmt->execute()) {
+            $changeQuantityProduct = true;
+        }
+        return $changeQuantityProduct;
     }
 
     //get all product on basket
@@ -106,14 +133,14 @@ class Basket
     //get number at product on basket
     public function getNumberOfProductOnBasket()
     {
-        $quantityRequest = 0;
+        $quantityRequest = false;
         $stmt = $this->db->prepare("SELECT * FROM basket WHERE ID_product = :idproduct AND ID_user = :iduser");
         $stmt->bindParam(":idproduct", $this->sneaker, PDO::PARAM_INT);
         $stmt->bindParam(":iduser", $this->iduser, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             $fetch = $stmt->fetch();
-            $quantityRequest = $fetch["quantity"];
+            $quantityRequest = $fetch["quantity"] > 0 ? $fetch["quantity"] : $quantityRequest;
         }
         return $quantityRequest;
     }
@@ -152,8 +179,7 @@ class Basket
         $stmt = $this->db->prepare("SELECT SUM(basket.quantity * products.price) as 'total' FROM basket INNER JOIN products ON basket.ID_product = products.ID_product WHERE basket.ID_user = :iduser GROUP BY basket.ID_user");
         $stmt->bindParam(":iduser", $this->iduser, PDO::PARAM_INT);
         if ($stmt->execute()) {
-            if($stmt->rowCount() > 0)
-            {
+            if ($stmt->rowCount() > 0) {
                 $total = $stmt->fetch();
             }
         }
@@ -180,8 +206,7 @@ class Basket
         $cleanBasket = false;
         $stmt = $this->db->prepare("DELETE FROM basket WHERE ID_user = :iduser");
         $stmt->bindParam(":iduser", $this->iduser, PDO::PARAM_INT);
-        if($stmt->execute())
-        {
+        if ($stmt->execute()) {
             $cleanBasket = true;
         }
         return $cleanBasket;
@@ -192,13 +217,9 @@ class Basket
         $getTotalByNum = false;
         $stmt = $this->db->prepare("SELECT SUM(quantity * price) as 'total' FROM basket_order WHERE numero = :numorder");
         $stmt->bindParam(":numorder", $num, PDO::PARAM_INT);
-        if($stmt->execute())
-        {
+        if ($stmt->execute()) {
             $getTotalByNum = $stmt->fetch();
         }
         return $getTotalByNum;
     }
-
-    
 }
-

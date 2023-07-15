@@ -5,17 +5,17 @@ ob_start();
 <section class="contains-inscription flex flexCenter">
     <form action="" method="POST" class="inscription rowColumn">
         <?= isset($login) ? "<div class='w100 textCenter error'>L'email ou le mot de passe est incorrecte</div>" : ""; ?>
-        <div class="w-l-10">
+        <div class="w-l-10 containInput">
             <label>adresse email</label>
             <br />
             <input name="email" class="w100" type="email" />
         </div>
-        <div class="w-l-10">
+        <div class="w-l-10 containInput">
             <label>Mot de passe</label>
             <br />
             <input name="password" class="w100" type="password" />
         </div>
-        <div class="w-l-10">
+        <div class="w-l-10 containInput">
 
             <input class="w100 submit" name="login" type="submit" value="connexion" />
         </div>

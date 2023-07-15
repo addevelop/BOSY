@@ -12,6 +12,7 @@
     font-family: var(--font2);
     font-size: var(--fontsize4);
     width: 80%;
+    height: 90%;
     padding: 1%;
 
 }
@@ -27,4 +28,14 @@
 {
     position: relative;
     text-align: end;
+}
+
+.blockimage
+{
+    position: relative;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }

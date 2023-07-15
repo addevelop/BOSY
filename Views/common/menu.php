@@ -6,17 +6,17 @@
         <ul id="menuafterScroll" class="Menu flex">
             <li id="home">
 
-                <a href="home">Home</a>
+                <a href="home">Accueil</a>
 
             </li>
             <li id="sneakers">
                 <a href="sneakers"> sneakers </a>
             </li>
-            <li>
-                sneakers custom
+            <li id="custom">
+                <a href="custom">sneaker custom</a>
             </li>
 
-            <li>
+            <li id="contact">
                 <a href="contact">nous contacter</a>
             </li>
             <?php
@@ -28,6 +28,19 @@
                         <li>
                             <a href="orders">Mes commandes</a>
                         </li>
+                        <?php
+                        if (connect::isAdmin()) {
+                        ?>
+                            <li>
+                                <a href="createProduct">Créer un produit</a>
+                            </li>
+                            <li>
+                                <a href="gestion">gestion</a>
+                            </li>
+                        <?php
+                        }
+                        ?>
+
                         <li>
                             <a href="logout" class="error">Deconnexion</a>
                         </li>

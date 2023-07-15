@@ -13,15 +13,31 @@ ob_start();
             <div class="w-l-3">prix</div>
             <div class="w-l-4">quantitée</div>
             <div class="bar"></div>
-            <?php 
-                foreach($commande as $product):
-            ?>
-            <div class="w-l-3"><?= $product["title"] ?></div>
-            <div class="w-l-3"><?= $product["price"] ?>€</div>
-            <div class="w-l-4"><?= $product["quantity"] ?></div>
             <?php
-                endforeach;
+            foreach ($commande as $product) :
             ?>
+                <div class="w-l-3"><?= $product["title"] ?></div>
+                <div class="w-l-3"><?= $product["price"] ?>€</div>
+                <div class="w-l-4"><?= $product["quantity"] ?></div>
+            <?php
+            endforeach;
+            ?>
+            <div class="bar"></div>
+            <?php
+            if ($getNumLastOrder["promo"] != NULL) {
+            ?>
+                <div class="w-l-3">code promotion</div>
+                <div class="w-l-7"><?= $getNumLastOrder["promo"] ?></div>
+                <div class="w-l-3">promotion</div>
+                <div class="w-l-7">-<?= $getNumLastOrder["percent"] ?>%</div>
+                <div class="bar"></div>
+            <?php
+            }
+            ?>
+            <div class="w-l-3">
+                total
+            </div>
+            <div><?= $getNumLastOrder["total"] ?>€</div>
         </div>
     </fieldset>
 </section>

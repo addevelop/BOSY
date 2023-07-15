@@ -22,4 +22,11 @@ class Sneakers
         $stmt->execute();
         return $stmt->fetch();
     }
+
+    public function getAllSneakersCustom()
+    {
+        $stmt = $this->db->query("SELECT * FROM products INNER JOIN images on images.ID_product = products.ID_product WHERE products.ID_categorie = 1");
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
 }

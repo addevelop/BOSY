@@ -11,9 +11,21 @@ function getAllSneakers()
 {
     require_once("Models/SneakersClass.php");
     require_once("Controllers/basket/basketControllerHandle.php");
-
+    $nb = 3;
+    $nbPage = 3;
     $getProducts = new Sneakers();
     $getProducts = $getProducts->getAllSneakers();
+
+    require_once("Views/front/sneakers.php");
+}
+
+function getAllSneakersCustom()
+{
+    require_once("Models/SneakersClass.php");
+    require_once("Controllers/basket/basketControllerHandle.php");
+
+    $getProducts = new Sneakers();
+    $getProducts = $getProducts->getAllSneakersCustom();
 
     require_once("Views/front/sneakers.php");
 }
@@ -55,7 +67,7 @@ function getSneaker($id)
 
     // $id = params::getParams($params, "sneaker");
     $getProduct = new Sneakers();
-    $getProduct = $getProduct->getSneaker($id);
+    $getProduct = $getProduct->getSneaker($id["sneaker"]);
     require_once("Views/front/sneaker.php");
 }
 
@@ -72,7 +84,6 @@ function getOrders()
     require_once("Controllers/order/ordersController.php");
     $orders = OrdersController::getOrdersById();
     require_once("Views/back/orders.php");
-    
 }
 
 function getBasket()
@@ -108,11 +119,9 @@ function getConfirmOrder()
 function getCreateOrder()
 {
     require_once("Controllers/order/ordersController.php");
-    if(ordersController::createOrder(isset($_POST["delivred"]), isset($_POST["promo"])))
-    {
+    if (ordersController::createOrder($_POST["delivred"], $_POST["promo"])) {
         header("Location: newCommande");
     }
-    
 }
 
 function getNewOrder()
@@ -134,4 +143,33 @@ function getOrder($numorder)
 function getContact()
 {
     require_once("Views/front/contact.php");
+}
+
+function getCreateProduct()
+{
+    require_once("Controllers/products/categorieController.php");
+    require_once("Controllers/products/brandsController.php");
+    $categories = categorieController::getCategories();
+    $brands = brandsController::getBrands();
+    require_once("Views/back/createProduct.php");
+}
+
+function getMessage($message)
+{
+    require_once("Views/back/message.php");
+}
+
+function getGestion()
+{
+    require_once("Views/front/gestion.php");
+}
+
+function getGestionClient()
+{
+    require_once("Controllers/admin/clientGestionClass.php");
+    $nb = 3;
+    $classClient = new clientGestionClass();
+    $customer = $classClient->client($nb);
+    $nbPage = $classClient->page($nb);
+    require_once("Views/administrateur/gestionClient.php");
 }

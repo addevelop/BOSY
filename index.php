@@ -6,6 +6,7 @@ require_once("param/param.php");
 require_once("Controllers/PageController.php");
 require_once("Controllers/commons/Utils.php");
 require_once("Controllers/commons/connectController.php");
+require_once("Controllers/backController.php");
 
 if (isset($_GET["page"])) {
     $page = $_GET["page"];
@@ -25,6 +26,9 @@ if (isset($_GET["page"])) {
             break;
         case "sneakers":
             getAllSneakers();
+            break;
+        case "custom":
+            getAllSneakersCustom();
             break;
         case  "inscription":
             getInscription();
@@ -59,6 +63,17 @@ if (isset($_GET["page"])) {
         case "contact":
             getContact();
             break;
+        case "createProduct":
+            getCreateProduct();
+            break;
+        case "backCreateProduct":
+            backCreateProduct();
+            break;
+        case "gestion":
+            getGestion();
+            break;
+        case "gestionClient":
+            getGestionClient();
         case "test":
             getTest();
             break;

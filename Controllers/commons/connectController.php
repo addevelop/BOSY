@@ -28,4 +28,15 @@ class connect
         }
         return $getId;
     }
+
+    public static function isAdmin()
+    {
+        $isAdmin = false;
+        if (self::isConnect()) {
+            if ($_SESSION["connect"]["administration"] == 3) {
+                $isAdmin = true;
+            }
+        }
+        return $isAdmin;
+    }
 }

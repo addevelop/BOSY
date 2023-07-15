@@ -60,7 +60,7 @@
 }
 .TitleSelect > a
 {
-    color: rgb(203, 203, 0) !important;
+    color: var(--color3) !important;
 }
 
 .subMenu

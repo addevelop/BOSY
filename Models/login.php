@@ -22,16 +22,15 @@ class Login
     }
     public function login()
     {
-        $connect = "no connect";
+        $connect = false;
         $stmt = $this->db->prepare("SELECT * FROM users WHERE email = :email AND password = :password");
         $stmt->bindParam("email", $this->email, PDO::PARAM_STR);
         $stmt->bindParam("password", $this->password, PDO::PARAM_STR);
         $stmt->execute();
         $count = $stmt->rowCount();
         if ($count == 1) {
-            $connect = "connect";
+            $connect = true;
             $user = new userClass();
-
             $_SESSION["connect"] = $user->getUser($this->email);
         }
 

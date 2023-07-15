@@ -5,7 +5,7 @@
     width: 90%;
     margin: auto;
     display: grid;
-    grid-gap: 10%;
+    grid-gap: 100px;
     grid-template-columns: repeat(3, 1fr);
 }
 
@@ -13,13 +13,18 @@
 {
     position: relative;
     padding: 2%;
+    height: 60vh;
     box-shadow: 0px 0px 10px black;
 }
 
 
 .imgProduct
 {
-    width: 100%
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
 .title_Products
 {
@@ -52,6 +57,15 @@
     color: white;
     border-radius: 10px;
     padding: 2%;
+    cursor: pointer;
+    font-family: var(--font3);
+    transition-duration: 0.3s;
+
+}
+
+.add:hover
+{
+    box-shadow: 0px 0px 10px black;
 }
 
 .view-product
@@ -59,5 +73,48 @@
     position: relative;
     border-radius: 10px;
     padding: 2%;
+    text-decoration: none;
     border: 1px solid black;
+    color: black;
+    font-family: var(--font3);
+    transition-duration: 0.3s;
+}
+
+.view-product::after
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background-color: rgb(2, 65, 94);
+    content: '';
+    border-radius: 10px;
+    z-index: -1;
+    transition-duration: 0.3s;
+}
+
+.view-product:hover
+{
+    color: white;
+    border: none;
+}
+
+.view-product:hover::after
+{
+    width: 100%;
+}
+
+.noStock
+{
+    position: relative;
+    color: red;
+    font-family: var(--font3);
+
+}
+.sneakers
+{
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
 }

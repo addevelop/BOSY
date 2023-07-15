@@ -22,6 +22,10 @@
 {
     --color1: white;
     --color2: black;
+    --color3: #0659a7;
+    
+    
+    --color4: #91c2f0;
     --font1: "Barlow Condensed Bold";
     --font2: "Barlow Condensed";
     --font3: "Roboto-Regular";
@@ -44,7 +48,7 @@ body
 
 .flexAuto
 {
-    flex: 1 1 auto;
+    flex: 1;
 }
 
 .flexColumn
@@ -179,4 +183,9 @@ body
 .textEnd
 {
     text-align: end;
+}
+
+.displayNone
+{
+    display: none;
 }

@@ -1,0 +1,166 @@
+.blockProduct
+{
+    position: relative;
+    width: 80%;
+    height: fit-content;
+    padding: 1%;
+    box-shadow: 0px 0px 10px;
+    margin-top: 1%;
+}
+
+.blockProduct > div
+{
+    position: relative;
+    width: 80%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    margin-top: 1.6%;
+}
+.price
+{
+    position: relative;
+    width: 100%;
+}
+.price::after
+{
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: block;
+    background-color: var(--color3);
+    width: fit-content;
+    color: white;
+    padding-left: 1%;
+    padding-right: 1%;
+    height: 100%;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    content: '€';
+}
+
+.blockProduct *
+{
+    font-size: var(--fontsize3);
+    font-family: var(--font3);
+}
+
+
+
+.poster
+{
+    position: relative;
+    background-color: var(--color3);
+    color: var(--color1);
+    border: none;
+    transition-duration: 0.3s;
+    cursor: pointer;
+}
+
+.poster:hover
+{
+    background-color: var(--color1);
+    color: var(--color3);
+    border: 1px solid var(--color3);
+}
+
+.image
+{
+    position: relative;
+    display: block;
+    height: 100%;
+}
+
+.blockSend
+{
+    position: relative;
+    flex-direction: row !important;
+}
+
+.inputFile
+{
+    position: relative;
+}
+
+.inputFile > div
+{
+    position: relative;
+    padding: 1%;
+
+}
+
+.inputFile > div > input
+{
+    display: none;
+}
+
+.inputFile > div > label
+{
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 15vh;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    box-shadow: 0px 0px 3px black;
+}
+
+.otherBrand
+{
+    position: relative;
+    display: none;
+    width: 100%;
+}
+
+.otherCategorie
+{
+    position: relative;
+    width: 100%;
+    display: none;
+}
+
+.blockBody
+{
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    /* background-image: url("../../images/fondProduct.png");
+    background-size: cover;
+    background-attachment: fixed; */
+    overflow: hidden;
+}
+
+.blockBody::after
+{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url("../../images/fondProduct.png");
+    background-size: cover;
+    background-attachment: fixed;
+    content: '';
+    animation: 10s linear blocks infinite alternate;
+    z-index: -1;
+    top: 0;
+    left: 0;
+
+}
+
+@keyframes blocks
+{
+    0%
+    {
+        transform: translate3d(0%, 0%, 0%) scale(7) rotate(0deg);
+    }
+    50%
+    {
+
+        transform: translate3d(10vw, 10vh, 0) scale(7.3) rotate(180deg);
+    }
+    100%
+    {
+
+        transform: translate3d(1vw, 1vh, 0) scale(7.2) rotate(10deg);
+    }
+}
