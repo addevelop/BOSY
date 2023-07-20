@@ -6,12 +6,12 @@ if (file_exists("Models/Basket.php")) {
 }
 class basketController
 {
-    public static function add($sneaker, $quantity)
+    public static function add($sneaker, $quantity, $size)
     {
         $add = false;
         $basket = new Basket();
 
-        if ($basket->addOnBasket($sneaker, $quantity, "add")) {
+        if ($basket->addOnBasket($sneaker, $quantity, $size, "add")) {
             $add = true;
         }
         return $add;
@@ -28,18 +28,16 @@ class basketController
         $checkNumberProduct = new Basket();
         $checkNumberProduct->checkStockProducts($sneaker);
     }
-    
+
     public static function getBasketStock()
     {
         $nombrePrd = false;
         $getBasketStock = new Basket();
-        if(count($getBasketStock->getBasket()) > 0)
-        {
+        if (count($getBasketStock->getBasket()) > 0) {
             $nombrePrd = true;
         }
-        
+
         return $nombrePrd;
-        
     }
     public static function getTotal()
     {

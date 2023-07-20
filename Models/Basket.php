@@ -1,11 +1,16 @@
 <?php
 require_once("db.php");
-// require_once("Controllers/commons/connectController.php");
+if (file_exists("Controllers/commons/connectController.php")) {
+    require_once("Controllers/commons/connectController.php");
+} else {
+    require_once("../../Controllers/commons/connectController.php");
+}
 class Basket
 {
     private $db;
     public $sneaker;
     public $iduser;
+    public $size;
     public $quantity;
     public $type;
 
@@ -15,11 +20,12 @@ class Basket
         $this->iduser = Connect::getId();
     }
     //add new product on basket
-    public function addOnBasket($sneaker, $quantity, $type)
+    public function addOnBasket($sneaker, $quantity, $size, $type)
     {
         $this->type = $type;
         $this->sneaker = $sneaker;
         $this->quantity = $quantity;
+        $this->size = $size;
         $addOnBasket = false;
         if ($this->ifProductIsOnBasket()) {
             if ($this->quantity <= 0) {
@@ -37,9 +43,10 @@ class Basket
     public function ifProductIsOnBasket()
     {
         $addOnBasket = false;
-        $stmt = $this->db->prepare("SELECT * FROM basket WHERE ID_user = :iduser AND ID_product = :idproduct");
+        $stmt = $this->db->prepare("SELECT * FROM basket WHERE ID_user = :iduser AND ID_product = :idproduct AND ID_stock = :stock");
         $stmt->bindParam(":iduser", $this->iduser, PDO::PARAM_INT);
         $stmt->bindParam(":idproduct", $this->sneaker, PDO::PARAM_INT);
+        $stmt->bindParam(":stock", $this->size, PDO::PARAM_INT);
         if ($stmt->execute()) {
             if ($stmt->rowCount() > 0) {
 
@@ -55,10 +62,11 @@ class Basket
     {
         $addOnBasketFirst = false;
         if ($this->checkStockProducts() > $this->quantity) {
-            $stmt = $this->db->prepare("INSERT INTO basket(ID_product, ID_user, quantity) VALUES(:idproduct, :iduser, :quantity)");
+            $stmt = $this->db->prepare("INSERT INTO basket(ID_product, ID_user, quantity, ID_stock) VALUES(:idproduct, :iduser, :quantity, :size)");
             $stmt->bindParam(":idproduct", $this->sneaker, PDO::PARAM_INT);
             $stmt->bindParam(":iduser", $this->iduser, PDO::PARAM_INT);
             $stmt->bindParam(":quantity", $this->quantity, PDO::PARAM_INT);
+            $stmt->bindParam(":size", $this->size, PDO::PARAM_INT);
 
             if ($stmt->execute()) {
                 $addOnBasketFirst = true;
@@ -79,10 +87,11 @@ class Basket
             if ($quantityCurrent) {
                 $this->quantity = $this->quantity + $quantityCurrent;
                 if ($this->quantity <= $this->checkStockProducts()) {
-                    $stmt = $this->db->prepare("UPDATE basket SET quantity = :quantity WHERE ID_user = :iduser AND ID_product = :idproduct");
+                    $stmt = $this->db->prepare("UPDATE basket SET quantity = :quantity WHERE ID_user = :iduser AND ID_product = :idproduct AND ID_stock = :stock");
                     $stmt->bindParam(":quantity", $this->quantity, PDO::PARAM_INT);
                     $stmt->bindParam(":iduser", $this->iduser, PDO::PARAM_INT);
                     $stmt->bindParam(":idproduct", $this->sneaker, PDO::PARAM_INT);
+                    $stmt->bindParam(":stock", $this->size, PDO::PARAM_INT);
 
                     if ($stmt->execute()) {
                         $update = true;
@@ -102,10 +111,11 @@ class Basket
     public function changeQuantityProduct()
     {
         $changeQuantityProduct = false;
-        $stmt = $this->db->prepare("UPDATE basket SET quantity = :quantity WHERE ID_user = :iduser AND ID_product = :sneaker");
+        $stmt = $this->db->prepare("UPDATE basket SET quantity = :quantity WHERE ID_user = :iduser AND ID_product = :sneaker AND ID_stock = :stock");
         $stmt->bindParam(":quantity", $this->quantity, PDO::PARAM_INT);
         $stmt->bindParam(":iduser", $this->iduser, PDO::PARAM_INT);
         $stmt->bindParam(":sneaker", $this->sneaker, PDO::PARAM_INT);
+        $stmt->bindParam(":stock", $this->size, PDO::PARAM_INT);
         if ($stmt->execute()) {
             $changeQuantityProduct = true;
         }
@@ -134,9 +144,10 @@ class Basket
     public function getNumberOfProductOnBasket()
     {
         $quantityRequest = false;
-        $stmt = $this->db->prepare("SELECT * FROM basket WHERE ID_product = :idproduct AND ID_user = :iduser");
+        $stmt = $this->db->prepare("SELECT * FROM basket WHERE ID_product = :idproduct AND ID_user = :iduser AND ID_stock = :stock");
         $stmt->bindParam(":idproduct", $this->sneaker, PDO::PARAM_INT);
         $stmt->bindParam(":iduser", $this->iduser, PDO::PARAM_INT);
+        $stmt->bindParam(":stock", $this->size, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             $fetch = $stmt->fetch();
@@ -150,7 +161,7 @@ class Basket
     {
         $iduser = connect::getId();
         $basket = false;
-        $stmt = $this->db->prepare("SELECT *, (basket.quantity * products.price) as 'total' FROM basket INNER JOIN products ON basket.ID_product = products.ID_product INNER JOIN images ON products.ID_product = images.ID_product WHERE ID_user = :iduser");
+        $stmt = $this->db->prepare("SELECT *, (basket.quantity * products.price) as 'total' FROM basket INNER JOIN products ON basket.ID_product = products.ID_product INNER JOIN images ON products.ID_product = images.ID_product INNER JOIN stock ON basket.ID_stock = stock.ID_stock WHERE ID_user = :iduser GROUP BY stock.ID_stock");
         $stmt->bindParam(":iduser", $iduser, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
@@ -164,8 +175,9 @@ class Basket
     {
 
         $basket = false;
-        $stmt = $this->db->prepare("SELECT * FROM products WHERE ID_product = :idproduct");
+        $stmt = $this->db->prepare("SELECT * FROM stock WHERE ID_product = :idproduct AND ID_stock = :stock");
         $stmt->bindParam(":idproduct", $this->sneaker, PDO::PARAM_INT);
+        $stmt->bindParam(":stock", $this->size, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             $basket = $stmt->fetch();
@@ -189,9 +201,10 @@ class Basket
     public function deleteBasketProduct()
     {
         $delete = false;
-        $stmt = $this->db->prepare("DELETE FROM basket WHERE ID_user = :iduser AND ID_product = :idproduct");
+        $stmt = $this->db->prepare("DELETE FROM basket WHERE ID_user = :iduser AND ID_product = :idproduct AND ID_stock = :stock");
         $stmt->bindParam(":iduser", $this->iduser, PDO::PARAM_INT);
         $stmt->bindParam(":idproduct", $this->sneaker, PDO::PARAM_INT);
+        $stmt->bindParam(":stock", $this->size, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             $delete = true;

@@ -25,7 +25,7 @@
     --color3: #0659a7;
     
     
-    --color4: #91c2f0;
+    --color4: #0070ec;
     --font1: "Barlow Condensed Bold";
     --font2: "Barlow Condensed";
     --font3: "Roboto-Regular";
@@ -60,6 +60,16 @@ body
 {
     justify-content: center;
     align-items: center;
+}
+
+.justifyCenter
+{
+    justify-content: center;
+}
+
+.justifyEnd
+{
+    justify-content: end;
 }
 
 .w100
@@ -188,4 +198,14 @@ body
 .displayNone
 {
     display: none;
+}
+
+.block
+{
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background-image: url("../../images/fond2.png");
+    background-size: cover;
+    background-attachment: fixed;
 }

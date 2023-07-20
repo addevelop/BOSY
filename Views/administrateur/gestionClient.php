@@ -56,7 +56,7 @@ ob_start();
                     <td><?= $client["mobile_phone"] ?></td>
                     <td><?= $client["email"] ?></td>
                     <td class="flex">
-                        <div class="flexAuto flex flexCenter"><a data-id="<?= $client["ID_user"] ?>" class="edit">Modifier</a></div>
+                        <div class="flexAuto flex flexCenter"><a data-id="<?= $client["ID_user"] ?>" href="profil?iduser=<?= $client["ID_user"] ?>" class="edit">Modifier</a></div>
                         <div class="flexAuto flex flexCenter"><a data-id=" <?= $client["ID_user"] ?>" class="delete">Supprimer</a></div>
                     </td>
                 </tr>

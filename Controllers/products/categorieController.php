@@ -7,4 +7,11 @@ class categorieController
         $categorie = new categorie();
         return $categorie->getCategories();
     }
+
+    public static function categorieExist($categorie)
+    {
+        $categorieExist = new categorie();
+        $categorieExist->setCategorie($categorie);
+        return $categorieExist->isCategorieExist();
+    }
 }

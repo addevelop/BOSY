@@ -2,22 +2,30 @@
 ob_start();
 ?>
 <link rel="stylesheet" href="public/source/css/login.css" />
-<section class="contains-inscription flex flexCenter">
-    <form action="" method="POST" class="inscription rowColumn">
+<section class="block flex flexCenter">
+    <form action="" method="POST" class="profil">
         <?= isset($login) ? "<div class='w100 textCenter error'>L'email ou le mot de passe est incorrecte</div>" : ""; ?>
-        <div class="w-l-10 containInput">
-            <label>adresse email</label>
-            <br />
-            <input name="email" class="w100" type="email" />
-        </div>
-        <div class="w-l-10 containInput">
-            <label>Mot de passe</label>
-            <br />
-            <input name="password" class="w100" type="password" />
-        </div>
-        <div class="w-l-10 containInput">
+        <div class="flex rowColumn">
+            <div class="w-l-10">
+                <div class="blocklabel">
+                    <label>adresse email</label>
+                    <input name="email" type="email" />
+                </div>
 
-            <input class="w100 submit" name="login" type="submit" value="connexion" />
+            </div>
+            <div class="w-l-10">
+                <div class="blocklabel">
+                    <label>Mot de passe</label>
+                    <input name="password" type="password" />
+                </div>
+
+            </div>
+            <div class="w-l-10">
+                <div class="labelsubmit">
+                    <input name="login" type="submit" value="connexion" />
+
+                </div>
+            </div>
         </div>
     </form>
 </section>

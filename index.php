@@ -74,6 +74,9 @@ if (isset($_GET["page"])) {
             break;
         case "gestionClient":
             getGestionClient();
+        case "profil":
+            getprofil($params);
+            break;
         case "test":
             getTest();
             break;

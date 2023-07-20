@@ -5,43 +5,57 @@ ob_start();
 ?>
 
 
-<link rel="stylesheet" href="public/source/css/contact.css" />
-<section class="block_body flex flexCenter">
-    <div class="formulary">
-        <div class="textCenter title">formulaire de contact</div>
-        <div class="block_contact">
-            <form class="rowColumn">
-                <div class="w-l-4 textCenter">
-                    <label class="labelinput">Email</label>
+<link rel="stylesheet" href="public/source/css/login.css" />
+<section class="block flex flexCenter">
+    <form class="profil">
+        <div class="flex rowColumn">
+            <div class="w-l-5">
+                <div class="blocklabel">
+                    <label>Email</label>
                     <input type="text" name="email" />
                 </div>
-                <div class="w-l-2 textCenter">OU</div>
-                <div class="w-l-4 textCenter">
-                    <label class="labelinput">Numéro de téléphone</label>
+
+            </div>
+            <div class="w-l-5">
+                <div class="blocklabel">
+                    <label>Numéro de téléphone</label>
                     <input type="number" name="tel" />
                 </div>
-                <div class="w-l-10">
+
+            </div>
+            <div class="w-l-10">
+                <div class="blockselect">
                     <label>Type de demande</label>
                     <select>
                         <option>Devis</option>
                         <option>Demande</option>
                     </select>
                 </div>
-                <div class="w-l-10">
+
+            </div>
+            <div class="w-l-10">
+                <div class="blocktextarea">
                     <label>Objet</label>
-                    <input class="w100" type="text" name="object" />
-                </div>
-                <div class="w-l-10">
-                    <label>texte</label>
-                    <textarea class="w100"></textarea>
-                </div>
-                <div>
-                    <input class="envoyercontact" type="submit" name="contact" value="envoyer" />
+                    <input type="text" name="object" />
                 </div>
 
-            </form>
+            </div>
+            <div class="w-l-10">
+                <div class="blocktextarea">
+                    <label>texte</label>
+                    <textarea></textarea>
+                </div>
+
+            </div>
+            <div class="w-l-10">
+                <div class="labelsubmit">
+                    <input type="submit" name="contact" value="envoyer" />
+                </div>
+
+            </div>
+
         </div>
-    </div>
+    </form>
 </section>
 
 <?php

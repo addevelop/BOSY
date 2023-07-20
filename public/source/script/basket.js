@@ -19,3 +19,11 @@ function sumTotal()
 
     $("[name='allPrice']").text(priceTotalProduct);
 }
+
+function select(id)
+{
+    if($(id).val() >= 0)
+    {
+        $(id).parent().parent(".product").css("display", "none");
+    }
+}

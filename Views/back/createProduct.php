@@ -15,7 +15,8 @@ ob_start();
         </div>
         <div>
             <label>description</label>
-            <textarea name="description"></textarea>
+            <textarea maxlength="650" class="textarea" onkeyup="countLength()" name="description"></textarea>
+            <div class="countLength"><span>0</span>/650</div>
         </div>
         <div>
             <label>prix</label>
@@ -58,7 +59,7 @@ ob_start();
 
         </div>
         <div>
-            <label>Stock</label>
+            <label>taille Stock (taille:stock)</label>
             <input type="text" name="stock" />
         </div>
         <div class="rowColumn blockSend">
@@ -94,6 +95,7 @@ ob_start();
 </section>
 <script src="public/source/script/previewImage.js"></script>
 <script src="public/source/script/createProduct.js"></script>
+<script src="public/source/script/countLength.js"></script>
 <?php
 $content = ob_get_clean();
 require_once("Views/template.php");

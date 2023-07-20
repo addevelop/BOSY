@@ -2,6 +2,7 @@
 require_once("db.php");
 require_once("categorie.php");
 require_once("brands.php");
+require_once("Models/StockSneaker.php");
 class createSneaker
 {
     public $title;
@@ -43,7 +44,7 @@ class createSneaker
                 $brand->createBrand();
                 $this->brand = $brand->getBrandByBrand()["ID_brands"];
         }
-        $stmt = $this->db->prepare("INSERT INTO products(title, description, price, created_at, activate, ID_categorie, ID_brands, stock) VALUES(:title, :description, :price, :created_at, :activate, :idcategorie, :idbrand, :stock)");
+        $stmt = $this->db->prepare("INSERT INTO products(title, description, price, created_at, activate, ID_categorie, ID_brands) VALUES(:title, :description, :price, :created_at, :activate, :idcategorie, :idbrand)");
         $stmt->bindParam(":title", $this->title, PDO::PARAM_STR);
         $stmt->bindParam(":description", $this->description, PDO::PARAM_STR);
         $stmt->bindParam(":price", $this->price, PDO::PARAM_STR);
@@ -51,10 +52,10 @@ class createSneaker
         $stmt->bindParam(":activate", $active, PDO::PARAM_INT);
         $stmt->bindParam(":idcategorie", $this->categorie, PDO::PARAM_INT);
         $stmt->bindParam(":idbrand", $this->brand, PDO::PARAM_INT);
-        $stmt->bindParam(":stock", $this->stock, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             if ($this->lastId()) {
+                $this->createStock();
                 $this->createFile();
                 $create = true;
             }
@@ -74,6 +75,16 @@ class createSneaker
             $lastId = true;
         }
         return $lastId;
+    }
+
+    public function createStock()
+    {
+        $createStock = false;
+        $stockNew = new StockClass();
+        foreach ($this->stock as $index => $stock) {
+            $stockArray = explode(":", $stock);
+            $stockNew->createStock($this->id, $stockArray[0], $stockArray[1]);
+        }
     }
     public function createFile()
     {

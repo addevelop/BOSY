@@ -3,7 +3,7 @@
     position: relative;
     width: 100%;
     z-index: 10;
-    background-color: grey;
+    background-image: linear-gradient(90deg, var(--color3), var(--color4));
 }
 
 .Menu
@@ -17,7 +17,7 @@
 }
 .menuafterScroll
 {
-    background-color: rgba(128, 128, 128, 0.41);
+    background-image: linear-gradient(90deg, var(--color3), var(--color4));
 }
 .menuforScroll
 {
@@ -60,7 +60,7 @@
 }
 .TitleSelect > a
 {
-    color: var(--color3) !important;
+    font-family: var(--font1) !important;
 }
 
 .subMenu
@@ -71,18 +71,14 @@
     width: 100%;
     height: fit-content;
     overflow: hidden;
-    transition-duration: 0.2s;
+    transition-duration: 0.7s;
+    background-color: var(--color3);
     max-height: 0;
 }
 
-.subMenu li
-{
-    background-color: rgb(80, 80, 80);
-    border: 1px solid var(--color2);
-}
 .Menu > li:hover > .subMenu
 {
-    max-height: fit-content;
+    max-height: 100vh;
 }
 
 .subMenu > li:hover
@@ -121,4 +117,109 @@
     transform: translateX(100%);
     display: block;
 
+}
+
+.mobileBar
+{
+    display: none;
+}
+
+@media screen and (max-width: 450px)
+{
+    .Menu
+    {
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    .Menu > li
+    {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: var(--fontsize4);
+    }
+
+    .Menu > .basketImage
+    {
+        display: none;
+    }
+
+    .mobileBar
+    {
+        position: relative;
+        width: 100%;
+        height: 10vh;
+        z-index: 11;
+        background-color: var(--color3);
+    }
+    
+
+    .menuforScroll
+    {
+        position: absolute;
+        background-image: linear-gradient(90deg, var(--color3), var(--color4));
+        max-height: 0;
+        overflow: hidden;
+    }
+
+    .mobileMenu
+    {
+        position: relative;
+        width: 70px;
+        height: 70px;
+        box-shadow: 0px 0px 10px rgb(231, 227, 204);
+        background-color: var(--color1);
+        border-radius: 100px;
+        padding: 1%;
+    }
+
+    .barMenu
+    {
+        position: relative;
+        width: 100%;
+        display: flex;
+        margin: auto;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .barMenu > div
+    {
+        position: relative;
+        width: 70%;
+        border-radius: 80px;
+        height: 39%;
+                background-color: var(--color3);
+
+    }
+
+    .mobilesubmenu
+    {
+        position: relative;
+        width: 100%;
+        height: 70%;
+    }
+
+    .basketblock
+    {
+        position: relative;
+        display: flex;
+        justify-content: end;
+        align-items: center;
+        padding: 0% 10% 0% 0%;
+        height: 100%;
+    }
+
+    .textBasket
+    {
+        transform: translateX(0%);
+        font-size: var(--fontsize4);
+        margin: 0;
+    }
+
+    .container-Menu
+    {
+        z-index: 10;
+    }
 }

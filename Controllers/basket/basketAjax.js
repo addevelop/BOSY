@@ -1,24 +1,26 @@
 $(document).ready(function(){
 
 $("[data-click='addProductDirect'").click(function(e){
-    addProductDirect($(e.target).attr("data-product"), 1);
+    addProductDirect($(e.target).attr("data-product"), 1, $("input[name='size']:checked").val());
     console.log(window.location.href);
     
 })
 $("[data-select='updateOnBasket'").on("change", function(e){
-      updateProductOnBasket($(e.target).val(), $(e.target).attr("data-id"));
+      updateProductOnBasket($(e.target).val(), $(e.target).attr("data-id"), $(e.target).attr("data-stock"));
     })
 });
 
-function addProductDirect(idsneaker, quantity)
+function addProductDirect(idsneaker, quantity, size)
 {
-  console.log("heu");
+
 $.ajax({
     type: "POST",
+    url: "Models/Ajax/Basket.php",
     data: {
       sneaker: idsneaker,
       quantity: quantity,
-      type: "direct"
+      size: size,
+      addProductDirect: "true",
     },
     success: function(data) {
     //   result=data;
@@ -61,13 +63,13 @@ function getNumBasket()
     success: function(data) {
     //   result=data;
     console.log("ti" + data);
-    $("#getNumBasket").text(data);
+    $(".getNumBasket").text(data);
     
     }
   }); 
 }
 
-function updateProductOnBasket(value, id)
+function updateProductOnBasket(value, id, size)
 {
   console.log(value);
   $.ajax({
@@ -76,6 +78,7 @@ function updateProductOnBasket(value, id)
     data: {
       sneaker: id,
       quantity: value, 
+      size: size,
       updateProductOnBasket: "true"
     },
     success: function(data) {

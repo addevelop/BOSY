@@ -32,7 +32,7 @@ class CreateOrder
     }
     public function numberStockProduct($sneaker)
     {
-        $stmt = $this->db->prepare("SELECT * FROM products WHERE ID_product = :sneaker");
+        $stmt = $this->db->prepare("SELECT * FROM stock WHERE ID_product = :sneaker");
         $stmt->bindParam(":sneaker", $sneaker, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch();
@@ -43,8 +43,12 @@ class CreateOrder
             $this->code = $this->checkPromoExist($promo);
         }
         $create = false;
-        $error = "";
+        $error = "fonctionne";
+        $NumberofBasket = new Basket();
         switch (false) {
+            case $NumberofBasket->getNumberBasket() > 0:
+                $error = "pas de produit";
+                break;
             case $this->stockProduct():
                 $error = "problème de stock";
                 break;
@@ -85,7 +89,7 @@ class CreateOrder
     {
         $stock = true;
         foreach ($this->product as $product) {
-            if ($this->numberStockProduct($product["ID_product"]) < $product["quantity"]) {
+            if ($this->numberStockProduct($product["ID_product"])["stock"] < $product["quantity"]) {
                 $stock = false;
             }
         }
@@ -119,6 +123,7 @@ class CreateOrder
 
     public function createOrder($delivery)
     {
+        $total = 10;
         $count = 0;
         $createdOrder = false;
         while ($this->checkNumero() > 0) {
@@ -206,11 +211,11 @@ class CreateOrder
     {
         $update = false;
         $sneakerClass = new Sneakers();
-        $snekearById = $sneakerClass->getSneaker($sneaker["ID_product"]);
-        $quantity = $snekearById["stock"] - $sneaker["quantity"];
-        $stmt = $this->db->prepare("UPDATE products SET stock = :quantity WHERE ID_product = :idproduct");
+        $sneakerById = $sneakerClass->getSneakerByIdStock($sneaker["ID_stock"]);
+        $quantity = $sneakerById["stock"] - $sneaker["quantity"];
+        $stmt = $this->db->prepare("UPDATE stock SET stock = :quantity WHERE ID_stock = :stock");
         $stmt->bindParam(":quantity", $quantity, PDO::PARAM_INT);
-        $stmt->bindParam(":idproduct", $sneaker["ID_product"], PDO::PARAM_INT);
+        $stmt->bindParam(":stock", $sneaker["ID_stock"], PDO::PARAM_INT);
         if ($stmt->execute()) {
             $update = true;
         }

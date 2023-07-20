@@ -25,3 +25,12 @@
 {
    font-family: var(--font1);
 }
+
+@media screen and (max-width: 450px)
+{
+    .pagination
+    {
+        width: 80%;
+        font-size: var(--fontsize4);
+    }
+}

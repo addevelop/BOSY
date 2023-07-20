@@ -13,6 +13,16 @@ if (isset($_POST["getNumBasket"])) {
 if (isset($_POST["updateProductOnBasket"])) {
     $update = false;
     $update = new Basket();
-    $update = $update->addOnBasket($_POST["sneaker"], $_POST["quantity"], "change");
+    $update = $update->addOnBasket($_POST["sneaker"], $_POST["quantity"], $_POST["size"], "change");
     return true;
+}
+if (isset($_POST["addProductDirect"])) {
+    $add = "false";
+    $basket = new Basket();
+
+    if ($basket->addOnBasket($_POST["sneaker"], $_POST["quantity"], $_POST["size"], "add")) {
+        $add = "true";
+    }
+    echo $_POST["quantity"];
+    exit;
 }

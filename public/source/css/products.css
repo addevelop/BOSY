@@ -72,12 +72,13 @@
 {
     position: relative;
     border-radius: 10px;
-    padding: 2%;
+    padding: 0% 2%;
     text-decoration: none;
     border: 1px solid black;
     color: black;
     font-family: var(--font3);
     transition-duration: 0.3s;
+    font-size: var(--fontsize3);
 }
 
 .view-product::after
@@ -117,4 +118,26 @@
     position: relative;
     width: 100%;
     min-height: 100vh;
+}
+
+@media screen and (max-width: 850px)
+{
+    .products
+    {
+        width: 100%;
+        padding-top: 0;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 0px;
+    }
+
+    .product
+    {
+        box-shadow: none;
+        height: 50vh;
+    }
+
+    .price_Products
+    {
+        font-size: var(--fontsize3);
+    }
 }

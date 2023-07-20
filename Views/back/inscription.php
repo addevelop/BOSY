@@ -2,44 +2,61 @@
 ob_start();
 ?>
 <link rel="stylesheet" href="public/source/css/login.css" />
-<section class="contains-inscription flex flexCenter">
-    <form action="" method="POST" class="inscription rowColumn">
+<section class="block flex flexCenter">
+    <form action="" method="POST" class="profil">
         <?= $message ?>
-        <div class="w-xs-1 w-l-5 containInput">
-            <label class="w100">Prénom</label>
-            <br />
-            <input name="firstname" class="w100" type=" text" value="" />
-        </div>
-        <div class=" w-l-5 containInput">
-            <label>Nom</label>
-            <br />
-            <input name="lastname" class="w100" type="text" value="" />
-        </div>
-        <div class=" w-l-10 containInput">
-            <label>adresse email</label>
-            <br />
-            <input name="email" class="w100" type="email" value="" />
-        </div>
-        <div class=" w-l-10 containInput">
-            <label>Numéro de téléphone</label>
-            <br />
-            <input name="mobile_phone" class="w100" type="text" value="" />
-        </div>
-        <div class="w-l-10 containInput">
-            <label>Mot de passe</label>
-            <br />
-            <input name="password" class="w100" type="password" />
-        </div>
-        <div class="w-l-10 containInput">
-            <label>comfirmer le mot de passe</label>
-            <br />
-            <input name="password1" class="w100" type="password" />
-        </div>
-        <div class="w-l-10 containInput">
+        <div class="rowColumn flex">
+            <div class="w-l-5">
+                <div class="blocklabel">
+                    <label>Prénom</label>
 
-            <input class="w100 submit" type="submit" name="inscription" value="Inscription" />
+                    <input name="firstname" type=" text" value="" />
+                </div>
+
+            </div>
+            <div class=" w-l-5">
+                <div class="blocklabel">
+                    <label>Nom</label>
+                    <input name="lastname" type="text" value="" />
+                </div>
+
+            </div>
+            <div class=" w-l-10">
+                <div class="blocklabel">
+                    <label>adresse email</label>
+                    <input name="email" type="email" value="" />
+                </div>
+
+            </div>
+            <div class=" w-l-10">
+                <div class="blocklabel">
+                    <label>Numéro de téléphone</label>
+                    <input name="mobile_phone" type="text" value="" />
+                </div>
+
+            </div>
+            <div class="w-l-5">
+                <div class="blocklabel">
+                    <label>Mot de passe</label>
+                    <input name="password" type="password" />
+                </div>
+
+            </div>
+            <div class="w-l-5">
+                <div class="blocklabel">
+                    <label>comfirmer le mot de passe</label>
+                    <input name="password1" type="password" />
+                </div>
+
+            </div>
+            <div class="w-l-10">
+                <div class="labelsubmit">
+                    <input type="submit" name="inscription" value="Inscription" />
+
+                </div>
+            </div>
+            <a href="login" class="alogin">déja inscrit ?</a>
         </div>
-        <a href="login">déja inscrit ?</a>
     </form>
 </section>
 <?php

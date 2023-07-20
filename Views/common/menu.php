@@ -2,6 +2,26 @@
 
 ?>
 <nav id="blockMenu" class="container-Menu">
+    <div class="mobileBar flex flexCenter">
+        <div class="mobileMenu flex flexCenter" onclick="menuopen()">
+            <div class="mobilesubmenu flex flexColumn">
+                <div class="barMenu flexAuto">
+                    <div></div>
+                </div>
+                <div class="barMenu flexAuto">
+                    <div></div>
+                </div>
+                <div class="barMenu flexAuto">
+                    <div></div>
+                </div>
+            </div>
+        </div>
+        <div class="flexAuto">
+            <div class="basketblock">
+                <a id="getNumBasket" href="basket" class="getNumBasket textBasket"><?= isset($numbasket) ? $numbasket : 0 ?></a>
+            </div>
+        </div>
+    </div>
     <div id="menu" class="menuforScroll">
         <ul id="menuafterScroll" class="Menu flex">
             <li id="home">
@@ -12,9 +32,9 @@
             <li id="sneakers">
                 <a href="sneakers"> sneakers </a>
             </li>
-            <li id="custom">
+            <!-- <li id="custom">
                 <a href="custom">sneaker custom</a>
-            </li>
+            </li> -->
 
             <li id="contact">
                 <a href="contact">nous contacter</a>
@@ -40,14 +60,16 @@
                         <?php
                         }
                         ?>
-
+                        <li>
+                            <a href="profil?iduser=<?= connect::getId() ?>">profil</a>
+                        </li>
                         <li>
                             <a href="logout" class="error">Deconnexion</a>
                         </li>
                     </ul>
                 </li>
                 <li class="h100 basketImage">
-                    <a id="getNumBasket" href="basket" class="textBasket"><?= isset($numbasket) ? $numbasket : 0 ?></a>
+                    <a id="getNumBasket" href="basket" class="getNumBasket textBasket"><?= isset($numbasket) ? $numbasket : 0 ?></a>
                 </li>
 
             <?php

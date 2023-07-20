@@ -19,6 +19,9 @@ class createProductController
             case self::checkPost():
                 $error = false;
                 break;
+            case self::formatStock():
+                $error = false;
+                break;
             case self::secureHTML():
                 $error = false;
                 break;
@@ -43,34 +46,51 @@ class createProductController
         return $checkPost;
     }
 
+    public static function formatStock()
+    {
+        $formatStock = false;
+        self::$stock = explode(" ", $_POST["stock"]);
+        if (sizeof(self::$stock) > 0) {
+            $formatStock = true;
+        }
+        return $formatStock;
+    }
+
     public static function secureHTML()
     {
         self::$title = self::verifCaract($_POST["title"], "string", 100);
-        self::$description = self::verifCaract($_POST["description"], "string", 650);
+        self::$description = self::verifCaract($_POST["description"], "string", 651);
         self::$price = self::verifcaract($_POST["price"], "int", null);
         self::$categorie = self::verifCaract($_POST["categorie"], "int", null) ? $_POST["categorie"] : self::verifCaract($_POST["otherCategorie"], "string", 100);
         self::$brand = self::verifCaract($_POST["brand"], "int", null) ? $_POST["brand"] : self::verifCaract($_POST["otherBrand"], "string", 100);
-        self::$stock = self::verifCaract($_POST["stock"], "int", null) && $_POST["stock"] >= 0 ? $_POST["stock"] : false;
+        // self::$stock = self::verifCaract($_POST["stock"], "int", null) && $_POST["stock"] >= 0 ? $_POST["stock"] : false;
         self::$files = $_FILES["image"];
         $secureHTML = true;
+        $text = "";
         switch (false) {
             case self::$title:
                 $secureHTML = false;
+                $text = "title";
                 break;
             case self::$description:
                 $secureHTML = false;
+                $text = htmlspecialchars($_POST["description"]);
                 break;
             case self::$price:
                 $secureHTML = false;
+                $text = "price";
                 break;
             case self::$categorie:
                 $secureHTML = false;
+                $text = "categorie";
                 break;
             case self::$brand:
                 $secureHTML = false;
+                $text = "brand";
                 break;
             case self::$stock:
                 $secureHTML = false;
+                $text = "stock";
                 break;
         }
         return $secureHTML;
@@ -79,7 +99,7 @@ class createProductController
     {
         $verifCaract = false;
         if ($type == "string") {
-            $verifCaract = strlen($string) <= $length ? htmlspecialchars($string) : false;
+            $verifCaract = strlen(htmlspecialchars($string)) <= $length ? htmlspecialchars($string) : false;
         } else if ($type == "int") {
             $verifCaract = is_numeric($string) ? $string : false;
         }

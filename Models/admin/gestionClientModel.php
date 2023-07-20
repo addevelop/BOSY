@@ -17,7 +17,7 @@ class gestionClientModel
     public function page()
     {
         $page = false;
-        $stmt = $this->db->prepare("SELECT * FROM users WHERE ID_administration LIKE :grade AND firstname LIKE :search OR lastname OR :search OR email OR :search");
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE ID_administration LIKE :grade AND firstname LIKE :search OR lastname LIKE :search OR email LIKE :search");
         $stmt->bindParam(":grade", $this->grade, PDO::PARAM_STR);
         $stmt->bindParam(":search", $this->search, PDO::PARAM_STR);
         if ($stmt->execute()) {

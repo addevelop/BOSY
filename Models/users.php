@@ -1,7 +1,7 @@
 <?php
 
 require_once("db.php");
-
+require_once("Controllers/commons/connectController.php");
 
 class Users
 {
@@ -14,10 +14,12 @@ class Users
     private $administration;
     private $date;
     private $db;
+    private $iduser;
 
-    public function __construct()
+    public function __construct($id = null)
     {
         $this->db = Database::connect();
+        $this->setIduser($id);
     }
 
 
@@ -42,6 +44,11 @@ class Users
     public function setPassword($password)
     {
         $this->password = $password;
+    }
+
+    public function setIdUser($id)
+    {
+        $this->iduser = $id != null && connect::isAdmin() ? $id : connect::getId();
     }
 
 
@@ -71,5 +78,17 @@ class Users
         }
 
         return true;
+    }
+
+    public function getUserById()
+    {
+        $getUserById = false;
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE ID_user = :iduser");
+        $stmt->bindParam(":iduser", $this->iduser, PDO::PARAM_INT);
+        if ($stmt->execute()) {
+            $getUserById = $stmt->fetch();
+        }
+
+        return $getUserById;
     }
 }

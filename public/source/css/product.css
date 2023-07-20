@@ -2,7 +2,7 @@
 {
     position: relative;
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .product
@@ -33,9 +33,171 @@
 .blockimage
 {
     position: relative;
-    height: 80%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    height: 100%;
     overflow: hidden;
+}
+
+.blockSize
+{
+    position: relative;
+    width: 100%;
+}
+.parentSize
+{
+    position: relative;
+    padding: 1%;
+}
+.size
+{
+    position: relative;
+    border: 1px solid rgb(90, 90, 90);
+    padding: 10px;
+    background-color: white;
+    
+}
+
+.stockepuisee
+{
+    background-color: rgb(197, 197, 197) !important;
+    color: var(--color2) !important;
+}
+.stockepuisee::after
+{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 1px;
+    height: 110%;
+    background-color: rgb(90, 90, 90);
+    transform: translateX(-50%) rotate(-35deg);
+    content: "";
+    
+}
+
+.parentSize input[type="radio"]:checked+.size{
+    background-color: var(--color3);
+    color: var(--color1);
+}
+
+.addBasket
+{
+    position: relative;
+    width: fit-content;
+    height: auto;
+    background-color: var(--color3);
+
+    color: var(--color1);
+    border-radius: 10px;
+    padding: 1%;
+}
+
+.opinion
+{
+    position: relative;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.opinionsblock
+{
+    position: relative;
+    width: 50%;
+}
+
+.blockavis
+{
+    position: relative;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    display: block;
+}
+
+.imgopinion
+{
+    position: relative;
+    width: 100%;
+}
+
+.imgopinion > img
+{
+    width: 10%;
+}
+
+.commenter
+{
+    position: relative;
+    font-family: var(--font3);
+    margin-top: 10px;
+    box-shadow: 0px 0px 2px black;
+}
+
+.blockcommenter
+{
+    position: relative;
+    width: 80%;
+    margin: auto;
+}
+
+.imgreturnback
+{
+    position: relative;
+    padding: 1%;
+    width: 80px;
+    cursor: pointer;
+}
+
+.imgreturnback > img:hover
+{
+    filter: drop-shadow(0px 0px 10px rgb(146, 146, 146));
+}
+
+.imagesblock
+{
+    position: relative;
+    width: 25%;
+    padding: 1%;
+}
+
+.imageselected
+{
+    border: 1px solid black;
+}
+.opinionformulary
+{
+    position: relative;
+    width: 80%;
+    padding: 15px;
+
+}
+.labelopinion
+{
+    position: relative;
+    padding: 15px;
+    background-color: rgba(128, 128, 128, 0.623);
+
+}
+
+.labelopinion fieldset
+{
+    position: relative;
+    border-radius: 10px;
+
+}
+.labelopinion legend
+{
+    position: relative;
+    font-size: var(--fontsize3);
+    
+}   
+
+.labelopinion input
+{
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    
 }

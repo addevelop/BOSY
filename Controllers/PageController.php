@@ -9,13 +9,14 @@ function getHome()
 
 function getAllSneakers()
 {
-    require_once("Models/SneakersClass.php");
+    require_once("Controllers/products/getSneakersClass.php");
     require_once("Controllers/basket/basketControllerHandle.php");
+    require_once("Controllers/products/categorieController.php");
+    $categories = categorieController::getCategories();
     $nb = 3;
-    $nbPage = 3;
-    $getProducts = new Sneakers();
-    $getProducts = $getProducts->getAllSneakers();
-
+    $getProducts = new getSneakersClass();
+    $nbPage = $getProducts->pageSneaker($nb);
+    $getSneakers =  $getProducts->getSneakers($nb);
     require_once("Views/front/sneakers.php");
 }
 
@@ -64,10 +65,14 @@ function getLogin()
 function getSneaker($id)
 {
     require_once("Models/SneakersClass.php");
-
+    require_once("Controllers/products/opinionsClass.php");
     // $id = params::getParams($params, "sneaker");
+    $getOpinions = opinionsClass::getOpinionsByIdProduct($id["sneaker"]);
+    $getAVGOpinion = opinionsClass::getAVGOpinionByIdProduct($id["sneaker"]);
     $getProduct = new Sneakers();
-    $getProduct = $getProduct->getSneaker($id["sneaker"]);
+    $getInfos = $getProduct->getSneaker($id["sneaker"]);
+    $getImages = $getProduct->getImagesByIdSneaker($id["sneaker"]);
+    $getProduct = $getInfos[0];
     require_once("Views/front/sneaker.php");
 }
 
@@ -97,9 +102,8 @@ function getBasket()
 
 function getTest()
 {
-    require_once("Controllers/basket/basketControllerHandle.php");
-
-    require_once("test.php");
+    // require_once("Controllers/basket/basketControllerHandle.php");
+    require_once("Views/front/test.php");
 }
 
 function getConfirmOrder()
@@ -121,6 +125,7 @@ function getCreateOrder()
     require_once("Controllers/order/ordersController.php");
     if (ordersController::createOrder($_POST["delivred"], $_POST["promo"])) {
         header("Location: newCommande");
+    } else {
     }
 }
 
@@ -172,4 +177,11 @@ function getGestionClient()
     $customer = $classClient->client($nb);
     $nbPage = $classClient->page($nb);
     require_once("Views/administrateur/gestionClient.php");
+}
+
+function getProfil($id)
+{
+    require_once("Controllers/user/getUsers.php");
+    $getUserById = getUsers::getUserbyId($id["iduser"]);
+    require_once("Views/front/profil.php");
 }

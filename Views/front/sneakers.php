@@ -2,11 +2,14 @@
 ob_start();
 ?>
 <link rel="stylesheet" href="public/source/css/products.css" />
-<div></div>
-<section class="sneakers">
+
+<form action="" method="POST" class="sneakers">
+    <?php
+    require_once("Views/common/filtre.php");
+    ?>
     <div class="products">
         <?php
-        foreach ($getProducts as $key => $value) :
+        foreach ($getSneakers as $key => $value) :
         ?>
             <div class="product flex flexColumn">
                 <div class="imgProduct flexAuto">
@@ -20,7 +23,7 @@ ob_start();
                     <?php
                     if (connect::isConnect()) {
                     ?>
-                        <div class="flexAuto">
+                        <!-- <div class="flexAuto">
                             <?php
                             if ($value["stock"] > 0) {
                             ?>
@@ -33,7 +36,7 @@ ob_start();
                             }
                             ?>
 
-                        </div>
+                        </div> -->
                     <?php
                     }
                     ?>
@@ -49,7 +52,7 @@ ob_start();
     <?php
     require_once("Views/common/page.php");
     ?>
-</section>
+</form>
 <?php
 $content = ob_get_clean();
 require_once("Views/template.php");
